@@ -1,0 +1,112 @@
+<div id="printSectionId" ng-hide="true">
+
+	<table width="100%">
+		<tr>
+			<td width="100%" style="border-bottom: dashed;"><H3
+					align="center">Nithya Hospital</H3><center><p>Hyderabad Road, Narayanpet</p></center> </td>
+		</tr>
+		<tr>
+			<td width="100%"  size: 1px;"><H3
+					align="center"></H3></td>
+		</tr>
+		<tr>
+			<td width="100%">
+				<table width="100%">
+					<tr>
+						<td width="50%">Patient: {{bill.customerName}}</td>
+						<td width="50%" align="right">Bill No: {{bill.id}}</td>
+					</tr>
+					<tr>
+						<td width="50%" >Doctor :Dr. Sri Vani</td>
+						<td width="50%" align="right">Date: {{currDate| date : 'dd/MM/yyyy hh:mm
+							a'}}</td>
+					</tr>
+					<tr>
+						<td width="50%" >Sales Tax No:</td>
+						<td width="50%" align="right"></td>
+					</tr>
+				</table>
+			</td>
+		</tr>
+		<tr>
+			<td width="100%">
+				<table width="100%">
+					<tr>
+						<th width="14%"
+							style="border-bottom: dashed; border-top: dashed; text-align: left;">#
+						</th>
+						<th width="14%"
+							style="border-bottom: dashed; border-top: dashed; text-align: left;">Particulars
+						</th>
+						<th width="14%"
+							style="border-bottom: dashed; border-top: dashed; text-align: left;">Mfr
+						</th>
+						<th width="14%"
+							style="border-bottom: dashed; border-top: dashed; text-align: left;">Expiry
+						</th>
+						<th width="14%"
+							style="border-bottom: dashed; border-top: dashed; text-align: left;">Qty
+						</th>
+						<th width="14%"
+							style="border-bottom: dashed; border-top: dashed; text-align: left;">Rate
+						</th>
+						<th width="14%"
+							style="border-bottom: dashed; border-top: dashed; text-align: left;">Amount
+						</th>
+					</tr>
+					<tr ng-repeat="bm in bill.billMedicines">
+						<td width="14%">{{$index+1}}</td>
+						<td width="14%">{{bm.medicine.name}}</td>
+						<td width="14%">{{bm.medicine.company}}</td>
+						<td width="14%">{{bm.medicine.expDate | date : 'dd/MM/yyyy'}}
+						</td>
+						<td width="14%">{{bm.units}}</td>
+						<td width="14%">{{bm.medicine.price}}</td>
+						<td width="14%">{{bm.medicine.price * bm.units}}</td>
+					</tr>
+					<tfoot>
+						<tr>
+							<td width="14%" style="border-top: dashed;"></td>
+							<td width="14%" style="border-top: dashed;"></td>
+							<td width="14%" style="border-top: dashed;"></td>
+							<td width="14%" style="border-top: dashed;"></td>
+							<td width="14%" style="border-top: dashed;"></td>
+							<td width="14%" style="border-top: dashed;">Sale Value</td>
+							<td width="14%" style="border-top: dashed;">{{bill.total}}</td>
+						</tr>
+						<tr>
+							<td width="14%" ></td>
+							<td width="14%" ></td>
+							<td width="14%" ></td>
+							<td width="14%" ></td>
+							<td width="14%" ></td>
+							<td width="14%" >Cash Amount</td>
+							<td width="14%" >{{bill.total | ceil}}</td>
+						</tr>
+						<tr>
+							<td width="20%" >Amount in words:</td>
+							<td width="80%" colspan="5" >{{bill.total | words}}</td>
+						</tr>
+					</tfoot>
+				</table>
+			</td>
+		</tr>
+	</table>
+	<div>
+		<table>
+			<tr>
+				<td valign="top">Note:</td>
+				<td valign="top"><ul>
+						<li>Free items are not taken back</li>
+						<li>Returns are accepted with in 7 days from the date of
+							purchase</li>
+						<li>Item will be taken back only on presenting of Original
+							bill</li>
+					</ul></td>
+			</tr>
+		</table>
+
+
+	</div>
+
+</div>

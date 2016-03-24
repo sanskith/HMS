@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<div ng-include="'partials/header.html'"></div>
+<div>
+	<div class="page-header">
+		<h4>Add Medicine to Inventory</h4>
+	</div>
+	<form class="form col-md-12 center-block" name="mdnForm"
+		ng-submit="update()" novalidate>
+
+<div ng-include="'partials/messages.html'"></div>
+
+		<div class="form-group"
+			ng-class="{ 'has-error' : mdnForm.name.$invalid && !mdnForm.name.$pristine }">
+			<label>Medicine Name</label> <input class="form-control input-sm"
+				type="text" name="name" ng-model="medicine.name"
+				placeholder="Medicine Name should not be more than 200 in length"
+				autofocus autocomplete="off" required ng-maxlength="200">
+			<p ng-show="mdnForm.name.$invalid && !mdnForm.name.$pristine"
+				class="help-block">Medicine name is required.</p>
+
+		</div>
+
+		<div class="form-group"
+			ng-class="{ 'has-error' : mdnForm.company.$invalid && !mdnForm.company.$pristine }">
+			<label>Medicine Company Name</label> <input
+				class="form-control input-sm" type="text" name="company"
+				ng-model="medicine.company" autocomplete="off" required
+				ng-maxlength="200"
+				placeholder="Medicine Company Name should not be more than 200 in length" />
+			<p ng-show="mdnForm.company.$invalid && !mdnForm.company.$pristine"
+				class="help-block">Medicine Company name is required.</p>
+		</div>
+
+		<div class="row">
+			<div class="col-md-2">
+				<div class="form-group"
+					ng-class="{ 'has-error' : mdnForm.mnfDate.$invalid && !mdnForm.mnfDate.$pristine }">
+					<label>Manufacturing Date</label>
+					<div class="input-group">
+						<input class="form-control" name="mnfDate" type="date"
+							ng-model="medicine.mnfDate"
+							placeholder="Choose manufacturing date" required /> <span
+							class="input-group-addon"> <i
+							class="glyphicon glyphicon-calendar"></i>
+						</span>
+					</div>
+					<p ng-show="mdnForm.mnfDate.$invalid && !mdnForm.mnfDate.$pristine"
+						class="help-block">Manufacturing date is required.</p>
+				</div>
+			</div>
+			<div class="col-md-2">
+
+				<div class="form-group" class="form-group"
+					ng-class="{ 'has-error' : mdnForm.expDate.$invalid && !mdnForm.expDate.$pristine }">
+					<label>Expiration Date</label>
+					<div class="input-group">
+						<input class="form-control" name="expDate" type="date" required
+							ng-model="medicine.expDate" placeholder="Choose expiration date" />
+						<span class="input-group-addon"> <i
+							class="glyphicon glyphicon-calendar"></i>
+						</span>
+					</div>
+					<p ng-show="mdnForm.expDate.$invalid && !mdnForm.expDate.$pristine"
+						class="help-block">Expire date is required.</p>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-4">
+				<div class="form-group">
+
+					<label>Sale Price</label>
+					<div class="input-group" class="form-group"
+						ng-class="{ 'has-error' : mdnForm.price.$invalid && !mdnForm.price.$pristine }">
+						<div class="input-group-addon">&#8377</div>
+						<input class="form-control input-sm" type="text" name="price"
+							autocomplete="off" ng-pattern="/(^(0|([1-9][0-9]*))(\.[0-9]{1,2})?$)|(^(0{0,1}|([1-9][0-9]*))(\.[0-9]{1,2})?$)/"
+							ng-model="medicine.price" placeholder="Enter Price here" />
+					</div>
+					<p ng-show="mdnForm.price.$invalid && !mdnForm.price.$pristine"
+						class="help-block">Enter valid amount.</p>
+				</div>
+			</div>
+			<div class="col-md-4">
+				<div class="form-group">
+
+					<label>Purchase Price</label>
+					<div class="input-group" class="form-group"
+						ng-class="{ 'has-error' : mdnForm.purchasePrice.$invalid && !mdnForm.purchasePrice.$pristine }">
+						<div class="input-group-addon">&#8377</div>
+						<input class="form-control input-sm" type="text"
+							name="purchasePrice" autocomplete="off"
+							ng-pattern="/(^(0|([1-9][0-9]*))(\.[0-9]{1,2})?$)|(^(0{0,1}|([1-9][0-9]*))(\.[0-9]{1,2})?$)/"
+							ng-model="medicine.purchasePrice"
+							placeholder="Enter Purchase Price here" />
+					</div>
+					<p
+						ng-show="mdnForm.purchasePrice.$invalid && !mdnForm.purchasePrice.$pristine"
+						class="help-block">Enter valid amount.</p>
+				</div>
+			</div>
+			<div class="col-md-4">
+				<div class="form-group" class="form-group"
+					ng-class="{ 'has-error' : mdnForm.units.$invalid && !mdnForm.units.$pristine }">
+					<label>Units</label> <input class="form-control input-sm"
+						ng-pattern="/^[0-9]/" ng-maxlength="6" type="text" name="units"
+						ng-model="medicine.units" autocomplete="off"
+						placeholder="Enter nunber of units here" />
+				</div>
+				<p ng-show="mdnForm.units.$invalid && !mdnForm.units.$pristine"
+					class="help-block">Enter only numbers of range 1,99,999.</p>
+			</div>
+		</div>
+
+		<div class="form-group">
+
+			<button class="btn btn-primary" ng-disabled="mdnForm.$invalid">Update</button>
+			<button class="btn btn-primary" type="button"
+				ng-click="backToInventory()">Back to Inventory</button>
+			<button class="btn btn-primary" type="button" ng-click="reset()">Reset</button>
+		</div>
+		<input type="hidden" ng-model="medicine.users" name="users" />
+	</form>
+
+
+</div>

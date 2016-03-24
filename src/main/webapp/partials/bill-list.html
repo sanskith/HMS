@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<div ng-include="'partials/header.html'"></div>
+<table width="100%">
+	<tr>
+		<td width="50%" style="text-align: left;" valign="top">
+			<div class="page-header">
+				<h3>Bills</h3>
+			</div>
+		</td>
+		<td width="50%" style="text-align: right; padding-bottom: 20px;"
+			valign="bottom">
+			<div class="btn-group">
+				<button type="button" ng-click="medicine()" class="btn btn-primary">Medicine</button>
+				<button type="button" ng-click="newBill()" class="btn btn-primary">Add
+					Bill</button>
+				<button type="button" ng-click="users()" class="btn btn-primary" ng-show="loggedInUser.admin">Admin</button>
+			</div>
+		</td>
+	</tr>
+</table>
+<div class="container-fluid">
+	<form class="form-inline">
+		<div ng-include="'partials/messages.html'"></div>
+		<table datatable="ng" dt-options="dtOptions" id="bills"
+			dt-column-defs="dtColumnDefs" class="table-striped" width="100%">
+			<thead>
+				<tr>
+					<th width="20%">Bill#</th>
+					<th width="20%">Customer Name</th>
+					<th width="10%">Phone Number</th>
+					<th width="10%">Bill Date</th>
+					<th width="10%">Created By</th>
+					<th width="10%"></th>
+				</tr>
+			</thead>
+			<tbody>
+
+				<tr ng-repeat="bill in bills ">
+					<td width="20%">{{bill.id}}</td>
+					<td width="20%">{{bill.customerName}}</td>
+					<td width="10%">{{bill.phone}}</span></td>
+					<td width="10%">{{bill.date | date :'dd/MM/yyyy'}}</td>
+					<td width="10%">{{bill.users.name}}</span></td>
+					<td width="10%">
+						<button type="button" ng-click="modifyBill($index)"
+							class="btn btn-warning" title="Update">
+							<span class="glyphicon glyphicon-edit"></span>
+						</button>
+						<button type="button" ng-click="removeBill($index)"
+							class="btn btn-danger" title="Delete"
+							ng-show="loggedInUser.admin">
+							<span class="glyphicon glyphicon-folder-close"></span>
+						</button>
+					</td>
+				</tr>
+
+			</tbody>
+		</table>
+	</form>
+</div>
+

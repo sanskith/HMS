@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<div ng-include="'partials/header.html'"></div>
+<table width="100%">
+	<tr>
+		<td width="50%" style="text-align: left;" valign="top">
+			<div class="page-header">
+				<h3>Medicine Inventory</h3>
+			</div>
+		</td>
+		<td width="50%" style="text-align: right; padding-bottom: 20px;"
+			valign="bottom">
+			<div class="btn-group">
+				<button type="button" ng-click="addMedicine()"
+					class="btn btn-primary">Add Medicine</button>
+				<button type="button" ng-click="bills()" class="btn btn-primary">Bills</button>
+				<button type="button" ng-click="users()" class="btn btn-primary"
+					ng-show="loggedInUser.admin">Admin</button>
+			</div>
+		</td>
+	</tr>
+</table>
+
+<div class="container-fluid">
+	<form class="form-inline">
+	
+		<div ng-include="'partials/messages.html'"></div>
+		
+		<table datatable="ng" dt-options="dtOptions" id="medicines"
+			dt-column-defs="dtColumnDefs" class="table-striped" width="100%">
+			<thead>
+				<tr>
+					<th width="20%">Name</th>
+					<th width="20%">Company Name</th>
+					<th width="10%">Manufacturing Date</th>
+					<th width="8%">Expiration Date</th>
+					<th width="5%">Price</th>
+					<th width="5%">Units</th>
+					<th width="10%"></th>
+				</tr>
+			</thead>
+			<tbody>
+
+				<tr ng-repeat="medicine in medicines | orderBy:orderBy">
+					<td width="20%">{{medicine.name}}</td>
+					<td width="20%">{{medicine.company}}</td>
+					<td width="10%">{{medicine.mnfDate | date : 'dd/MM/yyyy'}}</td>
+					<td width="8%"><span ng-class="comp(medicine)">{{medicine.expDate
+							| date : 'dd/MM/yyyy'}}</span></td>
+					<td width="5%">{{medicine.price | currency:"&#8377"}}</td>
+					<td width="5%"><span ng-class="count(medicine)">{{medicine.units}}</span></td>
+					<td width="10%">
+						<button type="button" ng-click="modifyMedicine($index)"
+							class="btn btn-warning" title="Update">
+							<span class="glyphicon glyphicon-edit"></span>
+						</button>
+						<button type="button"
+							ng-really-message="do you want to delete this?"
+							ng-really-click="removeMedicine($index)" class="btn btn-danger"
+							title="Delete" ng-show="loggedInUser.admin">
+							<span class="glyphicon glyphicon-folder-close"></span>
+						</button>
+					</td>
+				</tr>
+
+			</tbody>
+		</table>
+	</form>
+	<div class="text-right">
+		<span class="label label-warning ">Medicine about to expire</span> <span
+			class="label label-danger text-right"">Expired medicine /
+			Units below 10</span>
+	</div>
+</div>
+

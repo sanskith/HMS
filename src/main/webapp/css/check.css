@@ -1,0 +1,22 @@
+* {
+    margin:0;
+    padding:0;
+}
+body {
+    padding:10px;
+}
+label {
+    display:block;
+    font-size:14px;
+    margin:10px 0 2px;
+}
+input {
+    padding:1px 3px;
+}
+.msg-block {
+    margin-top:5px;
+}
+.msg-error {
+    color:#F00;
+    font-size:14px;
+}

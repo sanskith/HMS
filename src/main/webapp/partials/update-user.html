@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<div ng-include="'partials/header.html'"></div>
+<div>
+	<div class="page-header">
+		<h3>Update User</h3>
+	</div>
+	<form class="form col-md-12 center-block" name="usrForm"
+		ng-submit="update()" novalidate>
+
+<div ng-include="'partials/messages.html'"></div>
+		<div class="row">
+			<div class="col-md-3">
+				<div class="form-group"
+					ng-class="{ 'has-error' : usrForm.name.$invalid && !usrForm.name.$pristine }">
+					<label>Name</label> <input class="form-control input-sm" required
+						type="text" name="name" ng-model="user.name"
+						placeholder="Enter Name you full name" autofocus
+						autocomplete="off" />
+					<p ng-show="usrForm.name.$invalid && !usrForm.name.$pristine"
+						class="help-block">Your name is required.</p>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-3">
+				<div class="form-group">
+					<label>Username</label> <input class="form-control input-sm"
+						disabled="disabled" type="text" name="username"
+						ng-model="user.username" />
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-2">
+				<div class="form-group">
+					<label>Password</label>
+					<div class="input-group"
+						ng-class="{ 'has-error' : usrForm.password.$invalid && !usrForm.password.$pristine }">
+						<input class="form-control" id="pw1" type="password"
+							name="password" ng-required="" ng-model="user.password"
+							placeholder="Enter Password" />
+						<p
+							ng-show="usrForm.password.$invalid && !usrForm.password.$pristine"
+							class="help-block">password is required.</p>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-2">
+
+				<div class="form-group">
+					<label>Confirm Password</label>
+					<div class="input-group"
+						ng-class="{ 'has-error' : usrForm.cpassword.$invalid && !usrForm.cpassword.$pristine }">
+						<input class="form-control" type="password" name="cpassword"
+							ng-model="cpassword" placeholder="Re-type password"
+							ng-required="" pw-check="pw1" />
+						<div class="msg-block" ng-show="usrForm.$error">
+							<span class="msg-error"
+								ng-show="usrForm.cpassword.$error.pwmatch">Passwords
+								don't match.</span>
+						</div>
+					</div>
+
+				</div>
+			</div>
+		</div>
+		<div class="row">
+
+			<div class="col-md-3">
+				<div class="form-group">
+
+					<label>Phone</label>
+					<div class="input-group"
+						ng-class="{ 'has-error' : usrForm.phone.$invalid && !usrForm.phone.$pristine }">
+						<div class="input-group-addon">+91</div>
+						<input class="form-control input-sm" type="text" name="phone"
+							autocomplete="off" ng-model="user.phone"
+							placeholder="Enter phone number here"
+							ng-pattern="/^[1-9]{1}[0-9]{9}$/" />
+					</div>
+					<p ng-show="usrForm.phone.$invalid && !usrForm.phone.$pristine"
+						class="help-block">Enter valid phone number.</p>
+				</div>
+			</div>
+			<div class="col-md-3">
+				<div class="form-group"
+					ng-class="{ 'has-error' : usrForm.email.$invalid && !usrForm.email.$pristine }">
+					<label>email</label> <input class="form-control input-sm"
+						autocomplete="off" type="email" name="email" ng-model="user.email"
+						placeholder="Enter email here" />
+					<p ng-show="usrForm.email.$invalid && !usrForm.email.$pristine"
+						class="help-block">Enter a valid email.</p>
+				</div>
+			</div>
+			<div class="col-md-3">
+				<div class="form-group"
+					ng-class="{ 'has-error' : usrForm.admin.$invalid && !usrForm.admin.$pristine }">
+					<label>Is Admin</label> <input type="checkbox" name="admin"
+						ng-model="user.admin" style="margin-left: -80px;;"/>
+				</div>
+			</div>
+		</div>
+
+		<div class="form-group">
+			<button class="btn btn-primary" type="submit"
+				ng-disabled="usrForm.$invalid">Update</button>
+			<button class="btn btn-primary" ng-click="users()" type="button">Back
+				to Users</button>
+			<button type="reset" class="btn btn-primary" ng-click="reset()">Reset</button>
+		</div>
+	</form>
+</div>
