@@ -49,7 +49,7 @@ public class MedicineResource {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public List<Medicine> listAllMembers() {
+    public List<Medicine> listAllMedicines() {
         return repository.findAllOrderedByName();
     }
 

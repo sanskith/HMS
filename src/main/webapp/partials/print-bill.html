@@ -18,8 +18,7 @@
 					</tr>
 					<tr>
 						<td width="50%" >Doctor :Dr. Sri Vani</td>
-						<td width="50%" align="right">Date: {{currDate| date : 'dd/MM/yyyy hh:mm
-							a'}}</td>
+						<td width="50%" align="right">Date: {{currDate| date : 'dd/MM/yyyy hh:mma'}}</td>
 					</tr>
 					<tr>
 						<td width="50%" >Sales Tax No:</td>
@@ -58,11 +57,11 @@
 						<td width="14%">{{$index+1}}</td>
 						<td width="14%">{{bm.medicine.name}}</td>
 						<td width="14%">{{bm.medicine.company}}</td>
-						<td width="14%">{{bm.medicine.expDate | date : 'dd/MM/yyyy'}}
+						<td width="14%">{{bm.medicine.expDate | date : 'MMM/yyyy'}}
 						</td>
 						<td width="14%">{{bm.units}}</td>
-						<td width="14%">{{bm.medicine.price}}</td>
-						<td width="14%">{{bm.medicine.price * bm.units}}</td>
+						<td width="14%">{{bm.medicine.tabletPrice}}</td>
+						<td width="14%">{{bm.medicine.tabletPrice * bm.units}}</td>
 					</tr>
 					<tfoot>
 						<tr>
@@ -85,7 +84,7 @@
 						</tr>
 						<tr>
 							<td width="20%" >Amount in words:</td>
-							<td width="80%" colspan="5" >{{bill.total | words}}</td>
+							<td width="80%" colspan="5" >{{bill.total | ceil | words}}</td>
 						</tr>
 					</tfoot>
 				</table>

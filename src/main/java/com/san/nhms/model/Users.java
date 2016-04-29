@@ -1,15 +1,27 @@
 package com.san.nhms.model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
+import javax.persistence.Basic;
+import javax.persistence.CascadeType;
+import javax.persistence.CollectionTable;
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.MapKeyColumn;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 /**
  * The persistent class for the user database table.
@@ -39,6 +51,12 @@ public class Users implements Serializable {
 
 	@Column(name = "IS_ADMIN")
 	private boolean admin;
+
+	@Column(name = "IS_ACTIVE")
+	private boolean active;
+
+	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL ,mappedBy="users")
+	private List<SecuirtyQuestions> secuirtyQuestions = new ArrayList<>();
 
 	public Users() {
 	}
@@ -99,4 +117,19 @@ public class Users implements Serializable {
 		this.admin = admin;
 	}
 
+	public boolean isActive() {
+		return active;
+	}
+
+	public void setActive(boolean active) {
+		this.active = active;
+	}
+
+	public List<SecuirtyQuestions> getSecuirtyQuestions() {
+		return secuirtyQuestions;
+	}
+
+	public void setSecuirtyQuestions(List<SecuirtyQuestions> secuirtyQuestions) {
+		this.secuirtyQuestions = secuirtyQuestions;
+	}
 }

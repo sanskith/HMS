@@ -14,6 +14,7 @@
       <class>com.san.nhms.model.Medicine</class>
       <class>com.san.nhms.model.Users</class>
       <class>com.san.nhms.model.BillMedicine</class>
+      <class>com.san.nhms.model.SecuirtyQuestions</class>
       <properties>
          <!-- Properties for Hibernate -->
          <property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect" />

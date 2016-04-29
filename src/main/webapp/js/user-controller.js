@@ -1,7 +1,8 @@
-function UsersCtrl($scope, $http, $localStorage, $location, User,checkCreds, deleteCreds, getToken,Flash,
+function UsersCtrl($scope, $http, $localStorage, $location, User,/*checkCreds, getToken,*/deleteCreds,Flash,
 		DTOptionsBuilder, DTColumnDefBuilder) {
 
-	if (!checkCreds()) {
+	if ( /*!checkCreds()*/ $localStorage.loggedInUser === undefined
+			|| $localStorage.loggedInUser === "") {
 		$location.path("/home");
 	}
 	
@@ -17,7 +18,6 @@ function UsersCtrl($scope, $http, $localStorage, $location, User,checkCreds, del
 
 	$scope.logout = function() {
 		deleteCreds();
-		console.log("from lougout" + $localStorage.loggedInUser);
 		$location.path("/home");
 	};
 
@@ -37,8 +37,15 @@ function UsersCtrl($scope, $http, $localStorage, $location, User,checkCreds, del
 		$location.path("/chart");
 	};
 	
+	$scope.clearMessages = function() {
+		$scope.successMessages = '';
+		$scope.errorMessages = '';
+		$scope.errors = {};
+		$scope.clearMessages();
+	};
+	
 	$scope.refresh = function() {
-		$http.defaults.headers.common['Authorization'] = 'Basic ' + getToken();
+		/*$http.defaults.headers.common['Authorization'] = 'Basic ' + getToken();*/
 		$scope.users = User.query();
 	};
 
@@ -53,7 +60,7 @@ function UsersCtrl($scope, $http, $localStorage, $location, User,checkCreds, del
 
 	
 	$scope.removeMedicine = function(index) {
-		$http.defaults.headers.common['Authorization'] = 'Basic ' + getToken();
+		/*$http.defaults.headers.common['Authorization'] = 'Basic ' + getToken();*/
 		User.remove({
 			userId : $scope.users[index].id
 		}, function(data) {
@@ -65,7 +72,7 @@ function UsersCtrl($scope, $http, $localStorage, $location, User,checkCreds, del
 				$scope.errors = result.data;
 			} else {
 				$scope.errorMessages = [ 'Unknown server error' ];
-				Flash.create('danger', $scope.successMessages, 0, {class: 'custom-class', id: 'custom-id'}, true);
+				Flash.create('danger', $scope.errorMessages, 0, {class: 'custom-class', id: 'custom-id'}, true);
 			}
 		});
 	};
@@ -77,9 +84,10 @@ function UsersCtrl($scope, $http, $localStorage, $location, User,checkCreds, del
 	$scope.orderBy = 'name';
 
 }
-function AddUserCtrl($scope, $http, $localStorage, $location, User, checkCreds, deleteCreds, getToken, Flash) {
+function AddUserCtrl($scope, $http, $localStorage, $location, User, /*checkCreds, getToken,*/deleteCreds, Flash) {
 	
-	if (!checkCreds()) {
+	if ( /*!checkCreds()*/ $localStorage.loggedInUser === undefined
+			|| $localStorage.loggedInUser === "") {
 		$location.path("/home");
 	}
 
@@ -87,7 +95,6 @@ function AddUserCtrl($scope, $http, $localStorage, $location, User, checkCreds, 
 	
 	$scope.logout = function() {
 		deleteCreds();
-		console.log("from lougout" + $localStorage.loggedInUser);
 		$location.path("/home");
 	};
 
@@ -97,32 +104,74 @@ function AddUserCtrl($scope, $http, $localStorage, $location, User, checkCreds, 
 		$scope.errors = {};
 	};
 
-	// Define a reset function, that clears the prototype newMember object, and
-	// consequently, the form
 	$scope.reset = function() {
 		// Sets the form to it's pristine state
 		if ($scope.usrForm) {
 			$scope.usrForm.$setPristine();
 		}
-		// Clear input fields. If $scope.newMember was set to an empty object
-		// {},
-		// then invalid form values would not be reset.
-		// By specifying all properties, input fields with invalid values are
-		// also reset.
 		$scope.user = {
-			name : "",
-			username : "",
-			password : "",
-			email : "",
-			phone : ""
-		};
-
+				name : "",
+				username : "",
+				password : "",
+				email : "",
+				phone : "",
+				secuirtyQuestions :[],
+				
+			};
+		$scope.questions();
+		
 		// clear messages
 		$scope.clearMessages();
 	};
 
+	$scope.questions = function() {
+		$scope.options = []
+		$scope.options.push({
+			label : "Please select",
+			value : ""
+		});
+		$scope.options.push({
+			label : "What is your favorite sports?",
+			value : ""
+		});
+		$scope.options.push({
+			label : "What is your school name?",
+			value : ""
+		});
+		$scope.options.push({
+			label : "What is your mother name?",
+			value : ""
+		});
+		$scope.options.push({
+			label : "What is your favorite color?",
+			value : ""
+		});
+		$scope.options.push({
+			label : "In which city you born?",
+			value : ""
+		});
+		
+		$scope.secuirtyQuestions1 = {
+				question:$scope.options[0].label,
+				answer:""
+		}
+		
+		$scope.secuirtyQuestions2 = {
+				question:$scope.options[0].label,
+				answer:""
+		}
+		
+		$scope.secuirtyQuestions3 = {
+				question:$scope.options[0].label,
+				answer:""
+		}
+	}
 	$scope.add = function() {
-		$http.defaults.headers.common['Authorization'] = 'Basic ' + getToken();
+		$scope.user.secuirtyQuestions=[];
+		$scope.user.secuirtyQuestions.push($scope.secuirtyQuestions1);
+		$scope.user.secuirtyQuestions.push($scope.secuirtyQuestions2);
+		$scope.user.secuirtyQuestions.push($scope.secuirtyQuestions3);
+		/*$http.defaults.headers.common['Authorization'] = 'Basic ' + getToken();*/
 		User.save($scope.user, function(data) {
 			$scope.reset();
 			// mark success on the registration form
@@ -135,7 +184,7 @@ function AddUserCtrl($scope, $http, $localStorage, $location, User, checkCreds, 
 				$scope.errorMessages = [result.data.name];
 			} else {
 				$scope.errorMessages = [ 'Unknown  server error' ];
-				Flash.create('danger', $scope.successMessages, 0, {class: 'custom-class', id: 'custom-id'}, true);
+				Flash.create('danger', $scope.errorMessages, 0, {class: 'custom-class', id: 'custom-id'}, true);
 			}
 		});
 	};
@@ -147,20 +196,21 @@ function AddUserCtrl($scope, $http, $localStorage, $location, User, checkCreds, 
 	$scope.reset();
 	$scope.isUpdate = false;
 }
-function UpdateUserCtrl($scope, $http, $localStorage, $location, User, checkCreds, deleteCreds, getToken, Flash) {
+function UpdateUserCtrl($scope, $http, $localStorage, $location, User, /*checkCreds,  getToken,*/deleteCreds, Flash) {
 	
-	if (!checkCreds()) {
+	if ( /*!checkCreds()*/ $localStorage.loggedInUser === undefined
+			|| $localStorage.loggedInUser === "") {
 		$location.path("/home");
 	}
-
 	$scope.loggedInUser = $localStorage.loggedInUser;
 	$scope.user = $localStorage.user;
 	$scope.isUpdate = true;
 	
+	console.log($scope.user);
+	
 
 	$scope.logout = function() {
 		deleteCreds();
-		console.log("from lougout" + $localStorage.loggedInUser);
 		$location.path("/home");
 	};
 
@@ -169,11 +219,55 @@ function UpdateUserCtrl($scope, $http, $localStorage, $location, User, checkCred
 		$scope.errorMessages = '';
 		$scope.errors = {};
 	};
+	
+	$scope.questions = function() {
+		$scope.options = []
+		$scope.options.push({
+			label : "Please select",
+			value : ""
+		});
+		$scope.options.push({
+			label : "What is your favorite sports?",
+			value : ""
+		});
+		$scope.options.push({
+			label : "What is your school name?",
+			value : ""
+		});
+		$scope.options.push({
+			label : "What is your mother name?",
+			value : ""
+		});
+		$scope.options.push({
+			label : "What is your favorite color?",
+			value : ""
+		});
+		$scope.options.push({
+			label : "In which city you born?",
+			value : ""
+		});
+		
+		$scope.secuirtyQuestions1 = {
+				question:$scope.user.secuirtyQuestions[0].question,
+				answer:$scope.user.secuirtyQuestions[0].answer
+		}
+		
+		$scope.secuirtyQuestions2 = {
+				question:$scope.user.secuirtyQuestions[1].question,
+				answer:$scope.user.secuirtyQuestions[1].answer
+		}
+		
+		$scope.secuirtyQuestions3 = {
+				question:$scope.user.secuirtyQuestions[2].question,
+				answer:$scope.user.secuirtyQuestions[2].answer
+		}
+	}
+	$scope.questions();
 
 	// Define a reset function, that clears the prototype newMember object, and
 	// consequently, the form
 	$scope.reset = function() {
-		$http.defaults.headers.common['Authorization'] = 'Basic ' + getToken();
+		/*$http.defaults.headers.common['Authorization'] = 'Basic ' + getToken();*/
 		User.get({
 			userId : $scope.user.id
 		}, function(data) {
@@ -185,14 +279,19 @@ function UpdateUserCtrl($scope, $http, $localStorage, $location, User, checkCred
 				$scope.errors = result.data;
 			} else {
 				$scope.errorMessages = [ 'Unknown server error' ];
-				Flash.create('danger', $scope.successMessages, 0, {class: 'custom-class', id: 'custom-id'}, true);
+				Flash.create('danger', $scope.errorMessages, 0, {class: 'custom-class', id: 'custom-id'}, true);
 			}
 		});
 		$scope.clearMessages();
 	};
 
 	$scope.update = function() {
-		$http.defaults.headers.common['Authorization'] = 'Basic ' + getToken();
+		$scope.user.secuirtyQuestions=[];
+		$scope.user.secuirtyQuestions.push($scope.secuirtyQuestions1);
+		$scope.user.secuirtyQuestions.push($scope.secuirtyQuestions2);
+		$scope.user.secuirtyQuestions.push($scope.secuirtyQuestions3);
+		
+	/*	$http.defaults.headers.common['Authorization'] = 'Basic ' + getToken();*/
 		User.update($scope.user, function(data) {
 			// mark success on the registration form
 			$scope.successMessages = [ 'User updated successfully' ];
@@ -202,7 +301,7 @@ function UpdateUserCtrl($scope, $http, $localStorage, $location, User, checkCred
 				$scope.errors = result.data;
 			} else {
 				$scope.errorMessages = [ 'Unknown  server error' ];
-				Flash.create('danger', $scope.successMessages, 0, {class: 'custom-class', id: 'custom-id'}, true);
+				Flash.create('danger', $scope.errorMessages, 0, {class: 'custom-class', id: 'custom-id'}, true);
 			}
 		});
 	};
@@ -210,6 +309,8 @@ function UpdateUserCtrl($scope, $http, $localStorage, $location, User, checkCred
 	$scope.users = function(){
 		$location.path("/users");
 	};
+	
+	$scope.clearMessages();
 	
 	delete $localStorage.user;
 

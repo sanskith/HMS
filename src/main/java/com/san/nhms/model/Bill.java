@@ -1,7 +1,6 @@
 package com.san.nhms.model;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -18,7 +17,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.persistence.Transient;
+
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 /**
  * The persistent class for the bill database table.
@@ -31,7 +31,7 @@ public class Bill implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "BILL_S")
-	@SequenceGenerator(name = "BILL_S", sequenceName = "BILL_S",allocationSize = 1)
+	@SequenceGenerator(name = "BILL_S", sequenceName = "BILL_S", allocationSize = 1)
 	private Long id;
 
 	@Column(name = "CUSTOMER_NAME")
@@ -44,37 +44,22 @@ public class Bill implements Serializable {
 	private Date date;
 
 	private Double total;
-	
+
 	@Column(name = "CUSTOMER_AGE")
 	private int age;
-	
+
 	@Column(name = "CUSTOMER_GENDER")
 	private String gender;
-
-	public int getAge() {
-		return age;
-	}
-
-	public void setAge(int age) {
-		this.age = age;
-	}
-
-	public String getGender() {
-		return gender;
-	}
-
-	public void setGender(String gender) {
-		this.gender = gender;
-	}
 
 	// uni-directional many-to-one association to Users
 	@ManyToOne
 	@JoinColumn(name = "user_id")
 	private Users users;
 
-	@OneToMany(fetch = FetchType.EAGER, mappedBy = "medicine")
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "bill")
+	@JsonManagedReference
 	private List<BillMedicine> billMedicines;
-	
+
 	public Bill() {
 	}
 
@@ -102,7 +87,6 @@ public class Bill implements Serializable {
 		this.date = date;
 	}
 
-
 	public Double getTotal() {
 		return total;
 	}
@@ -126,12 +110,28 @@ public class Bill implements Serializable {
 	public void setPhone(String phone) {
 		this.phone = phone;
 	}
-	
+
 	public List<BillMedicine> getBillMedicines() {
 		return billMedicines;
 	}
 
 	public void setBillMedicines(List<BillMedicine> billMedicines) {
 		this.billMedicines = billMedicines;
+	}
+
+	public int getAge() {
+		return age;
+	}
+
+	public void setAge(int age) {
+		this.age = age;
+	}
+
+	public String getGender() {
+		return gender;
+	}
+
+	public void setGender(String gender) {
+		this.gender = gender;
 	}
 }

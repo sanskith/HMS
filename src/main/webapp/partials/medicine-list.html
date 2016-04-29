@@ -47,7 +47,7 @@
 					<td width="8%"><span ng-class="comp(medicine)">{{medicine.expDate
 							| date : 'dd/MM/yyyy'}}</span></td>
 					<td width="5%">{{medicine.price | currency:"&#8377"}}</td>
-					<td width="5%"><span ng-class="count(medicine)">{{medicine.units}}</span></td>
+					<td width="5%"><span ng-class="count(medicine)">{{medicine.totalTablets}}</span></td>
 					<td width="10%">
 						<button type="button" ng-click="modifyMedicine($index)"
 							class="btn btn-warning" title="Update">

@@ -30,6 +30,7 @@ import javax.ws.rs.core.Response;
 import com.san.nhms.data.BillRepository;
 import com.san.nhms.data.MedicineRepository;
 import com.san.nhms.model.Bill;
+import com.san.nhms.model.BillMedicine;
 import com.san.nhms.model.Medicine;
 import com.san.nhms.service.BillManager;
 import com.san.nhms.service.MedicineManger;
@@ -54,6 +55,13 @@ public class BillResource {
     @Produces(MediaType.APPLICATION_JSON)
     public List<Bill> listAllBills() {
         return repository.findAllOrderedByName();
+    }
+    
+    @GET
+    @Path("/billMedicine/{id:[0-9][0-9]*}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<BillMedicine> listAllBillMedicines(@PathParam("id") long id) {
+        return repository.AllBillMedicines(id);
     }
 
     @GET

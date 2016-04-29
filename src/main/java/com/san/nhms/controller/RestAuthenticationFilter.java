@@ -14,10 +14,12 @@ import javax.ws.rs.ext.Provider;
 
 import com.san.nhms.model.Users;
 
-@Provider
-@PreMatching
-public class RestAuthenticationFilter implements ContainerRequestFilter {
+//Uncomment all if you need security
 
+/*@Provider
+@PreMatching*/
+public class RestAuthenticationFilter { //implements ContainerRequestFilter {
+/*
 	@Inject
 	private Authenticator authenticator;
 
@@ -51,18 +53,10 @@ public class RestAuthenticationFilter implements ContainerRequestFilter {
 		final StringTokenizer tokenizer = new StringTokenizer(token, ":");
 		String username = tokenizer.nextToken();
 		String password = tokenizer.nextToken();
-		boolean authenticated = false;
-		if (authenticator.getUsers() == null) {
-			Users u = new Users();
-			u.setUsername(username);
-			u.setPassword(password);
-			u = authenticator.authenticate(u);
-			authenticated = (u == null) ? false : true;
-		} else {
-			authenticated = (username.equals(authenticator.getUsers().getUsername())
-					&& password.equals(authenticator.getUsers().getPassword())) ? true : false;
-		}
-
-		return authenticated;
-	}
+			Users user = new Users();
+			user.setUsername(username);
+			user.setPassword(password);
+			user = authenticator.authenticate(user);
+		return user != null;
+	}*/
 }

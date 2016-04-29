@@ -18,11 +18,22 @@
 	</tr>
 </table>
 <div class="container-fluid">
-<center>
-	<canvas id="line" class="chart chart-line" chart-data="data"
-  chart-labels="labels" chart-legend="true" chart-series="series"
-  chart-click="onClick"  style="height: 50%;width: 66%;">
+	<table width="100%">
+		<tr>
+			<td width="10%" valign="top">
+					<label> Select Year: </label><br>
+					<select  ng-options="option as option.label for option in options " ng-model="selectedOption" ng-change="chart()" >
+					</select>
+			</td>
+			<td width="90%"><center>
+					<canvas id="line" class="chart chart-line" chart-data="data"
+						chart-labels="labels" chart-legend="true" chart-series="series"
+						chart-click="onClick" style="height: 50%; width: 66%;">
 </canvas>
-</center> 
+				</center></td>
+		</tr>
+	</table>
+
+
 </div>
 

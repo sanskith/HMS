@@ -18,9 +18,6 @@ public class MedicineManger {
 	@Inject
 	private EntityManager em;
 
-	@Inject
-	private Event<Medicine> medicineEventSrc;
-
 	public void create(Medicine medicine) throws Exception {
 		Users users = em.find(Users.class, medicine.getUsers().getId());
 		em.detach(users);
@@ -28,7 +25,6 @@ public class MedicineManger {
 		medicine.setUsers(users);
 		em.persist(medicine);
 		log.info("Created Medicine --" + medicine.getName());
-		medicineEventSrc.fire(medicine);
 	}
 	
 	public void upadte(Medicine medicine) throws Exception {
@@ -38,14 +34,11 @@ public class MedicineManger {
 		medicine.setUsers(users);
 		em.merge(medicine);
 		log.info("Updated Medicine --" + medicine.getName());
-		medicineEventSrc.fire(medicine);
 	}
-	
 	
 	public void delete(long id) throws Exception {
 		Medicine medicine = em.find(Medicine.class, id);
 		em.remove(medicine);
 		log.info("Deleted Medicine:"+ medicine.getName());
-		medicineEventSrc.fire(medicine);
 	}
 }

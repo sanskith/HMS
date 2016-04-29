@@ -1,5 +1,10 @@
-function BillInventoryCntrl($scope, $http, $localStorage, $location, Bill, checkCreds, deleteCreds, getToken,Flash,
+function BillInventoryCntrl($scope, $http, $localStorage, $location, Bill, /*checkCreds, getToken,*/ deleteCreds,Flash,
 		DTOptionsBuilder, DTColumnDefBuilder) {
+	
+	if ( /*!checkCreds()*/ $localStorage.loggedInUser === undefined
+			|| $localStorage.loggedInUser === "") {
+		$location.path("/home");
+	}
 
 	$scope.loggedInUser = $localStorage.loggedInUser;
 	$scope.dtOptions = DTOptionsBuilder.newOptions().withPaginationType(
@@ -14,13 +19,19 @@ function BillInventoryCntrl($scope, $http, $localStorage, $location, Bill, check
 
 	$scope.logout = function() {
 		deleteCreds();
-		console.log("from lougout" + $localStorage.loggedInUser);
 		$location.path("/home");
+	};
+	
+	$scope.clearMessages = function() {
+		$scope.successMessages = '';
+		$scope.errorMessages = '';
+		$scope.errors = {};
 	};
 
 	$scope.refresh = function() {
-		$http.defaults.headers.common['Authorization'] = 'Basic ' + getToken();
+		/*$http.defaults.headers.common['Authorization'] = 'Basic ' + getToken();*/
 		$scope.bills = Bill.query();
+		$scope.clearMessages();
 	};
 
 	$scope.currDate = new Date();
@@ -33,7 +44,7 @@ function BillInventoryCntrl($scope, $http, $localStorage, $location, Bill, check
 	};
 
 	$scope.removeBill = function(index) {
-		$http.defaults.headers.common['Authorization'] = 'Basic ' + getToken();
+		/*$http.defaults.headers.common['Authorization'] = 'Basic ' + getToken();*/
 		Bill.remove({
 			billId : $scope.bills[index].id
 		}, function(data) {
@@ -45,7 +56,7 @@ function BillInventoryCntrl($scope, $http, $localStorage, $location, Bill, check
 				$scope.errors = result.data;
 			} else {
 				$scope.errorMessages = [ 'Unknown server error' ];
-				Flash.create('danger', $scope.successMessages, 0, {class: 'custom-class', id: 'custom-id'}, true);
+				Flash.create('danger', $scope.errorMessages, 0, {class: 'custom-class', id: 'custom-id'}, true);
 			}
 		});
 	};
@@ -70,14 +81,18 @@ function BillInventoryCntrl($scope, $http, $localStorage, $location, Bill, check
 
 }
 
-function AddBillCtrl($scope, $http, $localStorage, $location, Bill, Medicine, $timeout,  checkCreds, deleteCreds, getToken, Flash) {
+function AddBillCtrl($scope, $http, $localStorage, $location, Bill, Medicine, $timeout,  /*checkCreds,  getToken,*/deleteCreds, Flash) {
+	
+	if ( /*!checkCreds()*/ $localStorage.loggedInUser === undefined
+			|| $localStorage.loggedInUser === "") {
+		$location.path("/home");
+	}
 
 	$scope.loggedInUser = $localStorage.loggedInUser;
 	$scope.currDate = new Date();
 
 	$scope.logout = function() {
 		deleteCreds();
-		console.log("from lougout" + $localStorage.loggedInUser);
 		$location.path("/home");
 	};
 
@@ -114,7 +129,9 @@ function AddBillCtrl($scope, $http, $localStorage, $location, Bill, Medicine, $t
 	
 		$scope.bill.users = $localStorage.loggedInUser;
 		
-		$http.defaults.headers.common['Authorization'] = 'Basic ' + getToken();
+		/*$http.defaults.headers.common['Authorization'] = 'Basic ' + getToken();*/
+		
+		console.log($scope.bill);
 		
 		Bill.save($scope.bill, function(data) {
 			
@@ -128,14 +145,14 @@ function AddBillCtrl($scope, $http, $localStorage, $location, Bill, Medicine, $t
 				$scope.errors = result.data;
 			} else {
 				$scope.errorMessages = [ 'Unknown  server error' ];
-				Flash.create('danger', $scope.successMessages, 0, {class: 'custom-class', id: 'custom-id'}, true);
+				Flash.create('danger', $scope.errorMessages, 0, {class: 'custom-class', id: 'custom-id'}, true);
 			}
 		});
 	};
 
 	$scope.update = function() {
 		$scope.bill.users = $localStorage.loggedInUser;
-		$http.defaults.headers.common['Authorization'] = 'Basic ' + getToken();
+		/*$http.defaults.headers.common['Authorization'] = 'Basic ' + getToken();*/
 		Bill.update($scope.bill, function(data) {
 			$scope.reset();
 			// mark success on the registration form
@@ -147,7 +164,7 @@ function AddBillCtrl($scope, $http, $localStorage, $location, Bill, Medicine, $t
 				$scope.errors = result.data;
 			} else {
 				$scope.errorMessages = [ 'Unknown  server error' ];
-				Flash.create('danger', $scope.successMessages, 0, {class: 'custom-class', id: 'custom-id'}, true);
+				Flash.create('danger', $scope.errorMessages, 0, {class: 'custom-class', id: 'custom-id'}, true);
 			}
 		});
 	};
@@ -165,46 +182,52 @@ function AddBillCtrl($scope, $http, $localStorage, $location, Bill, Medicine, $t
     }
 	$scope.totalUnits = 0;
 	var purchasedUnits = 0;
+	
+	function roundToTwo(num) {
+		return +(Math.round(num + "e+2") + "e-2");
+	}
 
 	$scope.addMedicine = function() {
 		
-		if($scope.medicine2Add.units){
-			$scope.billForm.units.$setValidity("validUnits",$scope.medicine2Add.units<=$scope.totalUnits);
-			if($scope.medicine2Add.units>$scope.totalUnits){
+		//validation for available Units
+		if($scope.medicine2Add.totalTablets){
+			$scope.billForm.units.$setValidity("validUnits",$scope.medicine2Add.totalTablets<=$scope.totalUnits);
+			if($scope.medicine2Add.totalTablets>$scope.totalUnits){
 				return;
 			}
 		}
 		
-		//place validation here
-		purchasedUnits = $scope.medicine2Add.units;
-		$scope.medicine2Add.units = $scope.totalUnits - $scope.medicine2Add.units;
+		
+		purchasedUnits = $scope.medicine2Add.totalTablets;
+		$scope.medicine2Add.totalTablets = $scope.totalUnits - $scope.medicine2Add.totalTablets;
 		$scope.bill.billMedicines.push(angular.copy(_buildbillMedicine($scope.medicine2Add,purchasedUnits)));
-		$scope.bill.total = $scope.bill.total +(purchasedUnits * $scope.medicine2Add.price);
+		$scope.bill.total = roundToTwo($scope.bill.total +(purchasedUnits * $scope.medicine2Add.tabletPrice));
 		console.log($scope.bill.total);
 		$scope.medicine2Add = {
 			name : "",
 			company : "",
-			units : ""
+			totalTablets : ""
 		};
 
 	}
+	
 	$scope.modifyMedicine = function(index) {
 		$scope.medicine2Add = $scope.bill.billMedicines[index];
-		$scope.bill.total = $scope.bill.total -($scope.medicine2Add.units * $scope.medicine2Add.medicine.price);
-		$http.defaults.headers.common['Authorization'] = 'Basic ' + getToken();		
+		$scope.bill.total = roundToTwo($scope.bill.total -($scope.medicine2Add.units * $scope.medicine2Add.medicine.tabletPrice));
+		/*$http.defaults.headers.common['Authorization'] = 'Basic ' + getToken();	*/	
 		Medicine.get({
 			medicineId : $scope.medicine2Add.medicine.id
 		}, function(data) {
 
 			$scope.medicine2Add = data;
-			$scope.totalUnits = $scope.medicine2Add.units;
+			$scope.totalUnits = $scope.medicine2Add.totalTablets;
 			
 		}, function(result) {
 			if ((result.status == 409) || (result.status == 400)) {
 				$scope.errors = result.data;
 			} else {
 				$scope.errorMessages = [ 'Unknown server error' ];
-				Flash.create('danger', $scope.successMessages, 0, {class: 'custom-class', id: 'custom-id'}, true);
+				Flash.create('danger', $scope.errorMessages, 0, {class: 'custom-class', id: 'custom-id'}, true);
 			}
 		});
 		$scope.bill.billMedicines.splice(index, 1);
@@ -212,7 +235,7 @@ function AddBillCtrl($scope, $http, $localStorage, $location, Bill, Medicine, $t
 	}
 	$scope.removeMedicine = function(index) {
 		$scope.medicine2Add = $scope.bill.billMedicines[index];
-		$scope.bill.total = $scope.bill.total - ($scope.medicine2Add.units * $scope.medicine2Add.medicine.price);
+		$scope.bill.total = roundToTwo($scope.bill.total - ($scope.medicine2Add.units * $scope.medicine2Add.medicine.tabletPrice));
 		$scope.bill.billMedicines.splice(index, 1);
 	}
 
@@ -221,12 +244,11 @@ function AddBillCtrl($scope, $http, $localStorage, $location, Bill, Medicine, $t
 
 	$scope.onItemSelected = function() {
 		$scope.medicine2Add = $scope.data;
-		$scope.totalUnits = $scope.medicine2Add.units;
+		$scope.totalUnits = $scope.medicine2Add.totalTablets;
 		$scope.data = "";
 	}
 
 	$scope.reset();
-	$scope.isUpdate = false;
 
 	$scope.print = function() {
 		var innerContents = document.getElementById('printSectionId').innerHTML;
@@ -244,15 +266,18 @@ function AddBillCtrl($scope, $http, $localStorage, $location, Bill, Medicine, $t
 	};
 }
 
-function UpdateBillCtrl($scope, $http, $localStorage, $location, Bill, Medicine,  checkCreds, deleteCreds, getToken, Flash) {
+function UpdateBillCtrl($scope, $http, $localStorage, $location, Bill, Medicine, /* checkCreds, getToken,*/deleteCreds, Flash) {
+	
+	if ( /*!checkCreds()*/ $localStorage.loggedInUser === undefined
+			|| $localStorage.loggedInUser === "") {
+		$location.path("/home");
+	}
 
 	$scope.loggedInUser = $localStorage.loggedInUser;
 	$scope.currDate = new Date();
 
 	$scope.logout = function() {
-
 		deleteCreds();
-		console.log("from lougout" + $localStorage.loggedInUser);
 		$location.path("/home");
 	};
 
@@ -282,7 +307,7 @@ function UpdateBillCtrl($scope, $http, $localStorage, $location, Bill, Medicine,
 
 	$scope.updateBill = function() {
 		$scope.bill.users = $localStorage.loggedInUser;
-		$http.defaults.headers.common['Authorization'] = 'Basic ' + getToken();
+	/*	$http.defaults.headers.common['Authorization'] = 'Basic ' + getToken();*/
 		Bill.update($scope.bill, function(data) {
 			// mark success on the registration form
 			$scope.successMessages = [ 'Bill updated successfully' ];
@@ -292,7 +317,7 @@ function UpdateBillCtrl($scope, $http, $localStorage, $location, Bill, Medicine,
 				$scope.errors = result.data;
 			} else {
 				$scope.errorMessages = [ 'Unknown  server error' ];
-				Flash.create('danger', $scope.successMessages, 0, {class: 'custom-class', id: 'custom-id'}, true);
+				Flash.create('danger', $scope.errorMessages, 0, {class: 'custom-class', id: 'custom-id'}, true);
 			}
 		});
 	};
@@ -311,44 +336,51 @@ function UpdateBillCtrl($scope, $http, $localStorage, $location, Bill, Medicine,
 
 	$scope.totalUnits = 0;
 	var purchasedUnits = 0;
+	
+	function roundToTwo(num) {
+		return +(Math.round(num + "e+2") + "e-2");
+	}
 
 	$scope.addMedicine = function() {
 		
-		if($scope.medicine2Add.units){
-			$scope.billForm.units.$setValidity("validUnits",$scope.medicine2Add.units<=$scope.totalUnits);
-			if($scope.medicine2Add.units>$scope.totalUnits){
+		if($scope.medicine2Add.totalTablets){
+			$scope.billForm.units.$setValidity("validUnits",$scope.medicine2Add.totalTablets<=$scope.totalUnits);
+			if($scope.medicine2Add.totalTablets>$scope.totalUnits){
 				return;
 			}
 		}
-		purchasedUnits = $scope.medicine2Add.units;
-		$scope.medicine2Add.units = $scope.totalUnits - $scope.medicine2Add.units;
+		
+		purchasedUnits = $scope.medicine2Add.totalTablets;
+		$scope.medicine2Add.totalTablets = $scope.totalUnits - $scope.medicine2Add.totalTablets;
 		$scope.bill.billMedicines.push(angular.copy(_buildbillMedicine($scope.medicine2Add,purchasedUnits)));
-		$scope.bill.total = $scope.bill.total +(purchasedUnits * $scope.medicine2Add.price);
+		$scope.bill.total = roundToTwo($scope.bill.total +(purchasedUnits * $scope.medicine2Add.tabletPrice));
+		console.log($scope.bill.total);
 		$scope.medicine2Add = {
 			name : "",
 			company : "",
-			units : ""
+			totalTablets : ""
 		};
-
+		
 	}
 	
 	$scope.modifyMedicine = function(index) {
 		$scope.medicine2Add = $scope.bill.billMedicines[index];
-		$scope.bill.total = $scope.bill.total -($scope.medicine2Add.units * $scope.medicine2Add.medicine.price);
-		$http.defaults.headers.common['Authorization'] = 'Basic ' + getToken();
+		$scope.bill.total = roundToTwo($scope.bill.total -($scope.medicine2Add.units * $scope.medicine2Add.medicine.tabletPrice));
+		
+		/*$http.defaults.headers.common['Authorization'] = 'Basic ' + getToken();*/
 		Medicine.get({
 			medicineId : $scope.medicine2Add.medicine.id
 		}, function(data) {
 
 			$scope.medicine2Add = data;
-			$scope.totalUnits = $scope.medicine2Add.units;
+			$scope.totalUnits = $scope.medicine2Add.totalTablets;
 
 		}, function(result) {
 			if ((result.status == 409) || (result.status == 400)) {
 				$scope.errors = result.data;
 			} else {
 				$scope.errorMessages = [ 'Unknown server error' ];
-				Flash.create('danger', $scope.successMessages, 0, {class: 'custom-class', id: 'custom-id'}, true);
+				Flash.create('danger', $scope.errorMessages, 0, {class: 'custom-class', id: 'custom-id'}, true);
 			}
 		});
 		
@@ -357,8 +389,9 @@ function UpdateBillCtrl($scope, $http, $localStorage, $location, Bill, Medicine,
 	}
 
 	$scope.removeMedicine = function(index) {
+		
 		$scope.medicine2Add = $scope.bill.billMedicines[index];
-		$scope.bill.total = $scope.bill.total -($scope.medicine2Add.units * $scope.medicine2Add.medicine.price);
+		$scope.bill.total = roundToTwo($scope.bill.total - ($scope.medicine2Add.units * $scope.medicine2Add.medicine.tabletPrice));
 		$scope.bill.billMedicines.splice(index, 1);
 	}
 
@@ -367,12 +400,11 @@ function UpdateBillCtrl($scope, $http, $localStorage, $location, Bill, Medicine,
 
 	$scope.onItemSelected = function() {
 		$scope.medicine2Add = $scope.data;
-		$scope.totalUnits = $scope.medicine2Add.units;
+		$scope.totalUnits = $scope.medicine2Add.totalTablets;
 		$scope.data = "";
 	}
 
 	$scope.reset();
-	$scope.isUpdate = true;
 
 	$scope.print = function() {
 		var innerContents = document.getElementById('printSectionId').innerHTML;

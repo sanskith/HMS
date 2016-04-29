@@ -1,7 +1,7 @@
 // Define the REST resource service, allowing us to interact with it as a high level service
 
-angular.module('setCredService', ['ngCookies']).factory('setCreds',
-		 function($cookies) {
+/*angular.module('setCredService', [ 'ngCookies' ]).factory('setCreds',
+		function($cookies) {
 			return function(un, pw) {
 				var token = un.concat(":", pw);
 				$cookies.Creds = token;
@@ -9,8 +9,8 @@ angular.module('setCredService', ['ngCookies']).factory('setCreds',
 			};
 		});
 
-angular.module('checkCredService', ['ngCookies']).factory('checkCreds',
-		 function($cookies) {
+angular.module('checkCredService', [ 'ngCookies' ]).factory('checkCreds',
+		function($cookies) {
 			return function() {
 				var returnVal = false;
 				var Creds = $cookies.Creds;
@@ -19,13 +19,13 @@ angular.module('checkCredService', ['ngCookies']).factory('checkCreds',
 				}
 				return returnVal;
 			};
-		} );
+		});*/
 
-angular.module('deleteCredService', ['ngCookies', 'ngStorage']).factory('deleteCreds',
-		 function($cookies,$localStorage) {
+angular.module('deleteCredService', [/* 'ngCookies',*/ 'ngStorage' ]).factory(
+		'deleteCreds', function( $localStorage) {
 			return function() {
-				$cookies.Creds = "";
-				$cookies.Username = "";
+			/*	$cookies.Creds = "";
+				$cookies.Username = "";*/
 				delete $localStorage.loggedInUser;
 				delete $localStorage.medicine;
 				delete $localStorage.bill;
@@ -33,8 +33,8 @@ angular.module('deleteCredService', ['ngCookies', 'ngStorage']).factory('deleteC
 			};
 		});
 
-angular.module('getTokenService', ['ngCookies']).factory('getToken',
-		 function($cookies) {
+/*angular.module('getTokenService', [ 'ngCookies' ]).factory('getToken',
+		function($cookies) {
 			return function() {
 				var returnVal = "";
 				var Creds = $cookies.Creds;
@@ -43,11 +43,32 @@ angular.module('getTokenService', ['ngCookies']).factory('getToken',
 				}
 				return returnVal;
 			};
-		});
+		});*/
 
 angular.module('loginService', [ 'ngResource' ]).factory('Login',
 		function($resource) {
-			return $resource('rest/authenticate/:userId', {});
+			return $resource('rest/authenticate/:userId',null, {
+
+				'get' : {
+					method : 'GET'
+				},
+				'save' : {
+					method : 'POST'
+				},
+				'query' : {
+					method : 'GET',
+					isArray : true
+				},
+				'remove' : {
+					method : 'DELETE'
+				},
+				'delete' : {
+					method : 'DELETE'
+				},
+				'update' : {
+					method : 'PUT'
+				}
+			});
 		});
 
 angular.module('medicineService', [ 'ngResource' ]).factory('Medicine',
@@ -82,6 +103,33 @@ angular.module('billService', [ 'ngResource' ]).factory('Bill',
 
 				'get' : {
 					method : 'GET'
+				},
+				'save' : {
+					method : 'POST'
+				},
+				'query' : {
+					method : 'GET',
+					isArray : true
+				},
+				'remove' : {
+					method : 'DELETE'
+				},
+				'delete' : {
+					method : 'DELETE'
+				},
+				'update' : {
+					method : 'PUT'
+				}
+			});
+		});
+
+angular.module('billMedicineService', [ 'ngResource' ]).factory('BillMedicine',
+		function($resource) {
+			return $resource('rest/bills/billMedicine/:billId', null, {
+
+				'get' : {
+					method : 'GET',
+					isArray : true
 				},
 				'save' : {
 					method : 'POST'

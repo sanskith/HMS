@@ -1,6 +1,5 @@
 package com.san.nhms.data;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -12,7 +11,6 @@ import javax.persistence.criteria.Root;
 
 import com.san.nhms.model.Bill;
 import com.san.nhms.model.BillMedicine;
-import com.san.nhms.model.Users;
 
 @ApplicationScoped
 public class BillRepository {
@@ -34,16 +32,15 @@ public class BillRepository {
 		CriteriaQuery<Bill> criteria = cb.createQuery(Bill.class);
 		Root<Bill> bill = criteria.from(Bill.class);
 		criteria.select(bill).orderBy(cb.asc(bill.get("customerName")));
-		
 		List<Bill> bills = em.createQuery(criteria).getResultList();
-		
-		for(Bill b: bills){
-			List<BillMedicine>  billMedicines = em.createQuery("select m from Bill b, BillMedicine m where b.id = m.bill.id and b.id=?1",BillMedicine.class)
-			.setParameter(1, b.getId())
-			.getResultList();
-			b.setBillMedicines(billMedicines);
-		}
-		
 		return bills;
+	}
+
+	public List<BillMedicine> AllBillMedicines(Long id) {
+		List<BillMedicine> billMedicines = em
+				.createQuery("select b from  BillMedicine b where b.bill.id = ?1", BillMedicine.class)
+				.setParameter(1, id)
+				.getResultList();
+		return billMedicines;
 	}
 }

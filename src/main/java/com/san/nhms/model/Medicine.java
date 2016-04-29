@@ -22,6 +22,7 @@ import javax.persistence.TemporalType;
 @Entity
 @NamedQuery(name = "Medicine.findAll", query = "SELECT m FROM Medicine m")
 public class Medicine implements Serializable {
+
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -41,14 +42,21 @@ public class Medicine implements Serializable {
 
 	private String name;
 
+	@Column(name = "SLAE_PRICE")
 	private Double price;
 
 	@Column(name = "PURCHASE_PRICE")
 	private Double purchasePrice;
 
-	private int units;
+	@Column(name = "TOTAL_TABLETS")
+	private Long totalTablets;
 
-	// uni-directional many-to-one association to Users
+	@Column(name = "PRICE_PER_TABLET")
+	private Double tabletPrice;
+
+	@Column(name = "TABLETS_PER_STRP")
+	private Long stripTablets;
+
 	@ManyToOne
 	@JoinColumn(name = "user_id")
 	private Users users;
@@ -96,7 +104,6 @@ public class Medicine implements Serializable {
 		this.name = name;
 	}
 
-
 	public Double getPrice() {
 		return price;
 	}
@@ -113,12 +120,28 @@ public class Medicine implements Serializable {
 		this.purchasePrice = purchasePrice;
 	}
 
-	public int getUnits() {
-		return this.units;
+	public Long getTotalTablets() {
+		return totalTablets;
 	}
 
-	public void setUnits(int units) {
-		this.units = units;
+	public void setTotalTablets(Long totalTablets) {
+		this.totalTablets = totalTablets;
+	}
+
+	public Double getTabletPrice() {
+		return tabletPrice;
+	}
+
+	public void setTabletPrice(Double tabletPrice) {
+		this.tabletPrice = tabletPrice;
+	}
+
+	public Long getStripTablets() {
+		return stripTablets;
+	}
+
+	public void setStripTablets(Long stripTablets) {
+		this.stripTablets = stripTablets;
 	}
 
 	public Users getUsers() {

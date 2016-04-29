@@ -7,6 +7,7 @@ import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Expression;
 import javax.persistence.criteria.Root;
 
 import com.san.nhms.model.Medicine;
@@ -30,7 +31,8 @@ public class MedicineRepository {
 		CriteriaBuilder cb = em.getCriteriaBuilder();
 		CriteriaQuery<Medicine> criteria = cb.createQuery(Medicine.class);
 		Root<Medicine> medicine = criteria.from(Medicine.class);
-		criteria.select(medicine).where(cb.equal(medicine.get("name"), name));
+		 Expression<String> path = medicine.get("name");
+		criteria.select(medicine).where(cb.equal(cb.lower(path), name.toLowerCase()));
 		return em.createQuery(criteria).getSingleResult();
 	}
 

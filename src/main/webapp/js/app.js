@@ -4,10 +4,10 @@ var nhms = angular
 		.module(
 				'nhms',
 				[ 'ngRoute', 'loginService', 'ngStorage', 'medicineService',
-						'datatables', 'billService', 'userService',
-						'autofocus', 'setCredService', 'checkCredService',
-						'deleteCredService', 'getTokenService', 'ceilFilters',
-						'wordsFilters', 'flash', 'ngAnimate','chart.js' ])
+						'datatables', 'billService', 'userService','billMedicineService',
+						'autofocus', /*'setCredService', 'checkCredService',*/
+						'deleteCredService'/*, 'getTokenService'*/, 'ceilFilters',
+						'wordsFilters', 'flash', 'ngAnimate','chart.js','ui.bootstrap'])
 		.config(
 				[
 						'$httpProvider',
@@ -21,8 +21,8 @@ var nhms = angular
 							 * Use a HTTP interceptor to add a nonce to every
 							 * request to prevent MSIE from caching responses.
 							 */
-							$httpProvider.interceptors
-									.push('ajaxNonceInterceptor');
+						/*	$httpProvider.interceptors
+									.push('ajaxNonceInterceptor');*/
 							
 							 // Configure all charts
 						    ChartJsProvider.setOptions({
@@ -35,58 +35,53 @@ var nhms = angular
 						    });
 
 							$routeProvider.
-							// if URL fragment is /home, then load the home
-							// partial, with the
-							// MembersCtrl controller
 							when('/home', {
 								templateUrl : 'partials/home.html',
 								controller : IdentityCtrl
-							// Add a default route
 							}).when('/inventory', {
 								templateUrl : 'partials/medicine-list.html',
 								controller : InventoryCtrl
-							// Add a default route
 							}).when('/addMedicine', {
 								templateUrl : 'partials/add-medicine.html',
 								controller : AddMediceCtrl
-							// Add a default route
 							}).when('/updateMedicine', {
 								templateUrl : 'partials/update-medicine.html',
 								controller : UpdateCtrl
-							// Add a default route
 							}).when('/bills', {
 								templateUrl : 'partials/bill-list.html',
 								controller : BillInventoryCntrl
-							// Add a default route
 							}).when('/newBill', {
 								templateUrl : 'partials/add-bill.html',
 								controller : AddBillCtrl
-							// Add a default route
 							}).when('/updateBill', {
 								templateUrl : 'partials/update-bill.html',
 								controller : UpdateBillCtrl
-							// Add a default route
 							}).when('/users', {
 								templateUrl : 'partials/user-list.html',
 								controller : UsersCtrl
-							// Add a default route
 							}).when('/newUser', {
 								templateUrl : 'partials/add-user.html',
 								controller : AddUserCtrl
-							// Add a default route
 							}).when('/updateUser', {
 								templateUrl : 'partials/update-user.html',
 								controller : UpdateUserCtrl
-							// Add a default route
 							}).when('/chart', {
 								templateUrl : 'partials/chart.html',
 								controller : ChartCtrl
-							// Add a default route
+							}).when('/signUp', {
+								templateUrl : 'partials/sign-up.html',
+								controller : SignUpCtrl
+							}).when('/forgotPassword', {
+								templateUrl : 'partials/forgot-password.html',
+								controller : passwordCntrl
+							}).when('/reset', {
+								templateUrl : 'partials/reset-password.html',
+								controller : resetPasswordCntrl
 							}).otherwise({
 								redirectTo : '/home'
 							});
-						} ])
-		.factory(
+						} ]);
+		/*.factory(
 				'ajaxNonceInterceptor',
 				function() {
 					// This interceptor is equivalent to the behavior induced by
@@ -107,7 +102,7 @@ var nhms = angular
 							return config;
 						}
 					}
-				});
+				});*/
 
 nhms.directive('typeahead', function($timeout) {
 	return {
@@ -204,6 +199,7 @@ var tw = [ 'Twenty', 'Thirty', 'Forty', 'Fifty', 'Sixty', 'Seventy', 'Eighty',
 		'Ninety' ];
 
 function toWords(s) {
+	s = Math.ceil(s);
 	s = s.toString();
 	s = s.replace(/[\, ]/g, '');
 	if (s != parseFloat(s))
@@ -228,8 +224,13 @@ function toWords(s) {
 			}
 		} else if (n[i] != 0) {
 			str += dg[n[i]] + ' ';
-			if ((x - i) % 3 == 0)
-				str += 'Hundred ';
+			if ((x - i) % 3 == 0){
+				if(n[1] == 0 && n[2] == 0)
+				str += 'Hundred';
+				else
+					str += 'Hundred and ';
+			}
+				
 			sk = 1;
 		}
 
