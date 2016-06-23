@@ -2,7 +2,7 @@
 <div ng-include="'partials/header.html'"></div>
 <div>
 	<div class="page-header">
-		<h4>Add Medicine to Inventory</h4>
+		<h3>Add Medicine</h3>
 	</div>
 
 	<form class="form col-md-12 center-block" name="mdnForm"
@@ -14,8 +14,8 @@
 			<div class="col-md-6">
 				<div class="form-group"
 					ng-class="{ 'has-error' : mdnForm.name.$invalid && !mdnForm.name.$pristine }">
-					<label>Medicine Name <span style="color: red">*</span></label> <input
-						class="form-control input-sm" type="text" name="name"
+					<label>Medicine Name <span style="color: red">*</span></label><input
+						class="form-control input-lg" type="text" name="name"
 						ng-model="medicine.name"
 						placeholder="Medicine Name should not be more than 200 characters"
 						autofocus autocomplete="off" required ng-maxlength="200">
@@ -23,19 +23,17 @@
 						class="help-block">Medicine name is required.</p>
 				</div>
 			</div>
-		</div>
-		<div class="row">
 			<div class="col-md-6">
 				<div class="form-group"
 					ng-class="{ 'has-error' : mdnForm.company.$invalid && !mdnForm.company.$pristine }">
 					<label>Medicine Company Name</label> <input
-						class="form-control input-sm" type="text" name="company"
+						class="form-control input-lg" type="text" name="company"
 						ng-model="medicine.company" autocomplete="off" ng-maxlength="200"
 						placeholder="Medicine Company Name should not be more than 200 characters" />
 					<!-- <p ng-show="mdnForm.company.$invalid && !mdnForm.company.$pristine"
 						class="help-block">Medicine Company name is required.</p> -->
 				</div>
-			</div>
+			</div>			
 		</div>
 		<div class="row">
 			<div class="col-md-3">
@@ -43,12 +41,12 @@
 					ng-class="{ 'has-error' : mdnForm.mnfDate.$invalid && !mdnForm.mnfDate.$pristine }">
 					<label>Manufacturing Date <span style="color: red">*</span></label>
 					<div class="input-group">
-						<input type="text" class="form-control" autocomplete="off"
+						<input type="text" class="form-control input-lg" autocomplete="off"
 							uib-datepicker-popup="MMM/yyyy" name="mnfDate"
 							ng-model="medicine.mnfDate" is-open="popup1.opened" required
 							datepicker-options="{minMode: 'month'}" datepicker-mode="'month'" />
 						<span class="input-group-btn">
-							<button type="button" class="btn btn-default" ng-click="open1()">
+							<button type="button" class="btn btn-default btn-lg" ng-click="open1()">
 								<i class="glyphicon glyphicon-calendar"></i>
 							</button>
 						</span>
@@ -64,12 +62,12 @@
 					ng-class="{ 'has-error' : mdnForm.expDate.$invalid && !mdnForm.expDate.$pristine }">
 					<label>Expiration Date <span style="color: red">*</span></label>
 					<div class="input-group">
-						<input type="text" class="form-control" name="expDate"
+						<input type="text" class="form-control input-lg" name="expDate"
 							autocomplete="off" uib-datepicker-popup="MMM/yyyy"
 							ng-model="medicine.expDate" is-open="popup2.opened" required
 							datepicker-options="{minMode: 'month'}" datepicker-mode="'month'" />
 						<span class="input-group-btn">
-							<button type="button" class="btn btn-default" ng-click="open2()">
+							<button type="button" class="btn btn-default btn-lg" ng-click="open2()">
 								<i class="glyphicon glyphicon-calendar"></i>
 							</button>
 						</span>
@@ -78,8 +76,6 @@
 						class="help-block">Expire date is required.</p>
 				</div>
 			</div>
-		</div>
-		<div class="row">
 			<div class="col-md-3">
 				<div class="form-group">
 
@@ -87,7 +83,7 @@
 					<div class="input-group" class="form-group"
 						ng-class="{ 'has-error' : mdnForm.price.$invalid && !mdnForm.price.$pristine }">
 						<div class="input-group-addon">&#8377</div>
-						<input class="form-control input-sm" type="text" name="price"
+						<input class="form-control input-lg" type="text" name="price"
 							autocomplete="off"
 							ng-pattern="/(^(0|([1-9][0-9]*))(\.[0-9]{1,2})?$)|(^(0{0,1}|([1-9][0-9]*))(\.[0-9]{1,2})?$)/"
 							ng-model="medicine.price" placeholder="Enter Price here" />
@@ -103,7 +99,7 @@
 					<div class="input-group" class="form-group"
 						ng-class="{ 'has-error' : mdnForm.purchasePrice.$invalid && !mdnForm.purchasePrice.$pristine }">
 						<div class="input-group-addon">&#8377</div>
-						<input class="form-control input-sm" type="text"
+						<input class="form-control input-lg" type="text"
 							name="purchasePrice" autocomplete="off"
 							ng-pattern="/(^(0|([1-9][0-9]*))(\.[0-9]{1,2})?$)|(^(0{0,1}|([1-9][0-9]*))(\.[0-9]{1,2})?$)/"
 							ng-model="medicine.purchasePrice"
@@ -114,12 +110,14 @@
 						class="help-block">Enter valid amount.</p>
 				</div>
 			</div>
+			
 		</div>
+		
 		<div class="row">
 			<div class="col-md-3">
 				<div class="form-group" class="form-group"
 					ng-class="{ 'has-error' : mdnForm.strip.$invalid && !mdnForm.strip.$pristine }">
-					<label>No.of Strips</label> <input class="form-control input-sm"
+					<label>No.of Strips</label> <input class="form-control input-lg"
 						ng-pattern="/^[0-9]*$/" ng-maxlength="6" type="text" name="strip"
 						ng-model="strip" autocomplete="off"
 						placeholder="Enter number of strips here" />
@@ -131,7 +129,7 @@
 				<div class="form-group" class="form-group"
 					ng-class="{ 'has-error' : mdnForm.stripTablets.$invalid && !mdnForm.stripTablets.$pristine }">
 					<label>Tablets per Strip</label> <input
-						class="form-control input-sm" ng-pattern="/^[0-9]*$/"
+						class="form-control input-lg" ng-pattern="/^[0-9]*$/"
 						ng-maxlength="6" type="text" name="stripTablets"
 						ng-model="medicine.stripTablets" autocomplete="off"
 						placeholder="Enter number of tablets per strip here"
@@ -141,15 +139,13 @@
 					ng-show="mdnForm.stripTablets.$invalid && !mdnForm.stripTablets.$pristine"
 					class="help-block">Enter only numbers of range 1,99,999.</p>
 			</div>
-		</div>
-
-		<div class="row">
-			<div class="col-md-3">
+			
+				<div class="col-md-3">
 				<label>Price Per Tablet <span class="text-success"
 					ng-show="updated">&#10004;</span></label>
 				<div class="input-group" class="form-group">
 					<div class="input-group-addon">&#8377</div>
-					<input class="form-control input-sm" type="text" name="tabletPrice"
+					<input class="form-control input-lg" type="text" name="tabletPrice"
 						disabled ng-model="medicine.tabletPrice" />
 				</div>
 
@@ -158,7 +154,7 @@
 				<div class="form-group">
 					<label>Total tablets <span class="text-success"
 						ng-show="updated">&#10004;</span></label> <input
-						class="form-control input-sm" ng-maxlength="6" type="text"
+						class="form-control input-lg" ng-maxlength="6" type="text"
 						disabled name="totalTablets" ng-model="medicine.totalTablets" />
 				</div>
 				<p
@@ -166,15 +162,15 @@
 					class="help-block">Enter only numbers of range 1,99,999.</p>
 			</div>
 		</div>
-
-
-		<div class="form-group">
-			<button class="btn btn-primary" ng-disabled="mdnForm.$invalid"
+		<br>
+		
+		<div class="form-group text-center">
+			<button class="btn btn-primary btn-lg" ng-disabled="mdnForm.$invalid"
 				type="submit">Add</button>
 
-			<button class="btn btn-primary" type="button"
+			<button class="btn btn-primary btn-lg"  type="button"
 				ng-click="backToInventory()">Back to Inventory</button>
-			<button class="btn btn-primary" type="reset" ng-click="reset()">Reset</button>
+			<button class="btn btn-primary btn-lg" type="reset" ng-click="reset()">Reset</button>
 		</div>
 		<input type="hidden" ng-model="medicine.users" name="users" />
 	</form>

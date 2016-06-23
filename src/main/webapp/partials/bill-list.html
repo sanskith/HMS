@@ -10,10 +10,10 @@
 		<td width="50%" style="text-align: right; padding-bottom: 20px;"
 			valign="bottom">
 			<div class="btn-group">
-				<button type="button" ng-click="medicine()" class="btn btn-primary">Medicine</button>
-				<button type="button" ng-click="newBill()" class="btn btn-primary">Add
+				<button type="button" ng-click="medicine()" class="btn btn-primary btn-lg">Medicine</button>
+				<button type="button" ng-click="newBill()" class="btn btn-primary btn-lg">Add
 					Bill</button>
-				<button type="button" ng-click="users()" class="btn btn-primary" ng-show="loggedInUser.admin">Admin</button>
+				<button type="button" ng-click="users()" class="btn btn-primary btn-lg" ng-show="loggedInUser.admin">Admin</button>
 			</div>
 		</td>
 	</tr>
@@ -25,7 +25,7 @@
 			dt-column-defs="dtColumnDefs" class="table-striped" width="100%">
 			<thead>
 				<tr>
-					<th width="20%">Bill#</th>
+					<th width="10%">Bill#</th>
 					<th width="20%">Customer Name</th>
 					<th width="10%">Phone Number</th>
 					<th width="10%">Bill Date</th>
@@ -35,8 +35,8 @@
 			</thead>
 			<tbody>
 
-				<tr ng-repeat="bill in bills ">
-					<td width="20%">{{bill.id}}</td>
+				<tr ng-repeat="bill in bills" height="50px">
+					<td width="10%">{{bill.id}}</td>
 					<td width="20%">{{bill.customerName}}</td>
 					<td width="10%">{{bill.phone}}</span></td>
 					<td width="10%">{{bill.date | date :'dd/MM/yyyy'}}</td>

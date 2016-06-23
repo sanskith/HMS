@@ -2,7 +2,7 @@
 <div ng-include="'partials/header.html'"></div>
 <div class="container-fluid">
 	<div class="page-header">
-		<h4>Generate Bill</h4>
+		<h3>Add Bill</h3>
 	</div>
 	<form class="form col-md-12 center-block" name="billForm"
 		ng-submit="saveBill()" novalidate>
@@ -17,9 +17,9 @@
 						class="form-group"
 						ng-class="{ 'has-error' : billForm.customerName.$invalid && !billForm.customerName.$pristine }">
 						<label>Customer Name <span style="color: red">*</span></label> <input
-							class="form-control input-sm" type="text" name="customerName"
+							class="form-control input-lg" type="text" name="customerName"
 							ng-model="bill.customerName"
-							placeholder="Customer Name should not be more than 50 characters" autofocus
+							placeholder="Name should be less than 50 characters" autofocus
 							required ng-maxlength="50" autocomplete="off" />
 						<p
 							ng-show="billForm.customerName.$invalid && !billForm.customerName.$pristine"
@@ -31,7 +31,7 @@
 						<label>Phone</label>
 						<div class="input-group">
 							<div class="input-group-addon">+91</div>
-							<input class="form-control input-sm" type="text" name="phone"
+							<input class="form-control input-lg" type="text" name="phone"
 								ng-model="bill.phone" placeholder="Enter Customer Phone Number"
 								autocomplete="off" ng-pattern="/^[1-9]{1}[0-9]{9}$/" />
 						</div>
@@ -44,7 +44,7 @@
 						<label>Age</label>
 						<div class="input-group">
 							<div class="input-group-addon">Years</div>
-							<input class="form-control input-sm" type="text" name="age"
+							<input class="form-control input-lg" type="text" name="age"
 								ng-model="bill.age" placeholder="age" autocomplete="off"
 								ng-pattern="" ng-maxlength="3" />
 
@@ -84,13 +84,13 @@
 				<td style="width: 25%; padding-right: 10px;"><div>
 						<label>Medicine Name</label> <input type="text"
 							ng-model="medicine2Add.name" disabled="disabled"
-							class="form-control input-sm" />
+							class="form-control input-lg" />
 					</div></td>
 				<td style="width: 25%; padding-right: 10px;">
 					<div>
 						<label>Medicine Comapany</label> <input type="text"
 							ng-model="medicine2Add.company" disabled="disabled"
-							class="form-control input-sm" />
+							class="form-control input-lg" />
 					</div>
 				</td>
 				<td style="width: 50%; padding-right: 10px;" colspan="2">
@@ -101,8 +101,8 @@
 									<label>Units</label>
 									<div class="form-group"
 										ng-class="{ 'has-error' : billForm.units.$invalid && !billForm.units.$pristine }">
-										<input class="form-control input-sm"  type="number"
-											class="text-danger" name="units" placeholder="Enter units"
+										<input class="form-control input-lg"  type="number"
+											class="text-danger" name="units" placeholder="Units"
 											ng-model="medicine2Add.totalTablets" 
 											autocomplete="off" />
 										<p ng-show="billForm.units.$error.validUnits"
@@ -124,46 +124,39 @@
 			</tr>
 		</table>
 		</br> </br>
-		<table width="100%" class="table-striped">
-			<thead>
-				<tr>
-					<th style="width: 30%">Medicine Name</th>
-					<th style="width: 30%; padding-left: 34px;">Medicine Comapany</th>
-					<th style="width: 20%; padding-left: -300px;">Units</th>
-					<th style="width: 20%;">Price</th>
-				</tr>
-				<tr>
-					<th style="width: 30%;"></th>
-					<th style="width: 30%; padding-left: 34px; padding-right: 55px;">
-
-					</th>
-					<th style="width: 15%; padding-top: 10px; padding-left: -100px;"
-						valign="bottom"></th>
-					<th style="width: 10%; vertical-align: top; padding-left: -1000px;"
-						align="left"></th>
-				</tr>
-			</thead>
-		</table>
 		<table width="100%" class="table-striped"
 			ng-show="bill.billMedicines.length > 0">
+				<thead>
+				<tr>
+					<th style="width: 25%">Medicine Name</th>
+					<th style="width: 25%;">Medicine Comapany</th>
+					<th style="width: 5%; padding-left: -300px;">Units</th>
+					<th style="width: 10%;">Price per Unit</th>
+					<th style="width: 5%;">Amount</th>
+					<th style="width: 10%;"></th>
+				</tr>
+			</thead>
 			<tfoot style="background: #CCC;">
 				<tr>
-					<td>Total</td>
+					<td><STRONG>Total</STRONG></td>
 					<td></td>
 					<td></td>
-					<td>{{bill.total}}</td>
+					<td></td>
+					<td><STRONG>{{bill.total}}</STRONG></td>
+					<td></td>
 				</tr>
 			</tfoot>
-			<tr ng-repeat="bm in bill.billMedicines	track by $index">
-				<td style="padding-left: 15px; width: 25%">{{bm.medicine.name}}</td>
-				<td style="padding-left: 15px; width: 25%">{{bm.medicine.company}}</td>
-				<td style="padding-left: 15px; width: 5%">{{bm.units}}</td>
-				<td style="padding-left: 15px; width: 5%">{{bm.medicine.tabletPrice}}</td>
-				<td style="padding-left: 15px; cursor: pointer; width: 20%"">
-					<button class="btn btn-warning" ng-click="modifyMedicine($index)">
+			<tr ng-repeat="bm in bill.billMedicines	track by $index" height="50px">
+				<td style=" width: 25%">{{bm.medicine.name}}</td>
+				<td style=" width: 25%">{{bm.medicine.company}}</td>
+				<td style=" width: 5%">{{bm.units}}</td>
+				<td style=" width: 10%">{{bm.medicine.tabletPrice}}</td>
+				<td style=" width: 5%">{{bm.medicine.tabletPrice * bm.units}}</td>
+				<td style=" cursor: pointer; width: 10%"">
+					<button class="btn btn-warning" type="button" ng-click="modifyMedicine($index)">
 						<span class="glyphicon glyphicon-edit"></span>
 					</button>
-					<button class="btn btn-danger" ng-click="removeMedicine($index)">
+					<button class="btn btn-danger" type="button" ng-click="removeMedicine($index)">
 						<span class="glyphicon glyphicon-folder-close"></span>
 					</button>
 
@@ -173,14 +166,14 @@
 		<br>
 		<br>
 		<br>
-		<div class="form-group">
-			<button class="btn btn-primary" ng-disabled="billForm.$invalid"
+		<div class="form-group text-center">
+			<button class="btn btn-primary btn-lg" ng-disabled="billForm.$invalid"
 				type="submit">save</button>
-			<button class="btn btn-primary" type="button" ng-disabled="isPrint"
+			<button class="btn btn-primary btn-lg" type="button" ng-disabled="isPrint"
 				ng-click="print()">Generate Bill</button>
-			<button class="btn btn-primary" type="button"
+			<button class="btn btn-primary btn-lg" type="button"
 				ng-click="backToBillInventory()">Back to Inventory</button>
-			<button class="btn btn-primary" type="reset" ng-click="reset()">Reset</button>
+			<button class="btn btn-primary btn-lg" type="reset" ng-click="reset()">Reset</button>
 		</div>
 		<input type="hidden" ng-model="bill.users" name="users" />
 	</form>

@@ -10,11 +10,12 @@
 		<td width="50%" style="text-align: right; padding-bottom: 20px;"
 			valign="bottom">
 			<div class="btn-group">
-				<button type="button" ng-click="medicines()" class="btn btn-primary">Medicines</button>
-				<button type="button" ng-click="bills()" class="btn btn-primary">Bills</button>
-				<button type="button" ng-click="addUser()" class="btn btn-primary" ng-show="loggedInUser.admin">Add
+				<button type="button" ng-click="medicines()" class="btn btn-primary btn-lg">Medicines</button>
+				<button type="button" ng-click="bills()" class="btn btn-primary btn-lg">Bills</button>
+				<button type="button" ng-click="addUser()" class="btn btn-primary btn-lg"  ng-show="loggedInUser.admin">Add
 					User</button>
-				<button type="button" ng-click="chart()" class="btn btn-primary">Profit/Loss Graph</button>
+				<button type="button" ng-click="chart()" class="btn btn-primary btn-lg">Profit/Loss Graph</button>
+				<button type="button" ng-click="transactions()" class="btn btn-primary btn-lg">Transactions</button>
 			</div>
 		</td>
 	</tr>
@@ -34,7 +35,7 @@
 			</thead>
 			<tbody>
 
-				<tr ng-repeat="user in users | orderBy:orderBy">
+				<tr ng-repeat="user in users | orderBy:orderBy" height="50px">
 					<td width="20%">{{user.name}}</td>
 					<td width="20%">{{user.email}}</td>
 					<td width="10%">{{user.phone}}</td>
