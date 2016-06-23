@@ -1,0 +1,188 @@
+<div ng-include="'partials/messages.html'"></div>
+
+
+<table width="100%">
+	<tr>
+
+		<td width="50%" valign="top"><div class="row">
+				<div class="col-md-9">
+					<div class="form-group"
+						ng-class="{ 'has-error' : usrForm.name.$invalid && !usrForm.name.$pristine }">
+						<label>Name <span style="color: red">*</span>
+						</label> <input class="form-control input-lg" required type="text"
+							name="name" ng-model="user.name"
+							placeholder="Enter your full name" autofocus autocomplete="off" />
+						<p ng-show="usrForm.name.$invalid && !usrForm.name.$pristine"
+							class="help-block">Your name is required.</p>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-9">
+					<div class="form-group"
+						ng-class="{ 'has-error' : usrForm.username.$invalid && !usrForm.username.$pristine }">
+						<label>Username <span style="color: red">*</span></label> <input
+							class="form-control input-lg" required type="text"
+							name="username" ng-model="user.username" autocomplete="off"
+							ng-minlength="3" ng-maxlength="8"
+							placeholder="Username should not be more than 8 characters" />
+						<p ng-show="usrForm.username.$error.minlength" class="help-block">Username
+							is too short.</p>
+						<p ng-show="usrForm.username.$error.maxlength" class="help-block">Username
+							is too long.</p>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-4">
+					<div class="form-group">
+						<label>Password <span style="color: red">*</span></label>
+						<div class="input-group"
+							ng-class="{ 'has-error' : usrForm.password.$invalid && !usrForm.password.$pristine }">
+							<input class="form-control input-lg" id="pw1" type="password"
+								name="password" ng-required="" ng-model="user.password"
+								placeholder="Enter Password" />
+							<p
+								ng-show="usrForm.password.$invalid && !usrForm.password.$pristine"
+								class="help-block">password is required.</p>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-4">
+
+					<div class="form-group" >
+						<label>Confirm Password <span style="color: red">*</span></label>
+						<div class="input-group"
+							ng-class="{ 'has-error' : usrForm.cpassword.$invalid && !usrForm.cpassword.$pristine }">
+							<input class="form-control input-lg" type="password" name="cpassword"
+								ng-model="cpassword" placeholder="Re-type password"
+								ng-required="" pw-check="pw1" />
+							<div class="msg-block" ng-show="usrForm.$error">
+								<span class="msg-error"
+									ng-show="usrForm.cpassword.$error.pwmatch">Passwords
+									don't match.</span>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-9">
+
+					<div class="form-group"
+						ng-class="{ 'has-error' : usrForm.phone.$invalid && !usrForm.phone.$pristine }">
+						<label>Phone</label>
+						<div class="input-group">
+							<div class="input-group-addon">+91</div>
+							<input class="form-control input-lg" type="text" name="phone"
+								autocomplete="off" ng-model="user.phone"
+								placeholder="Enter phone number here"
+								ng-pattern="/^[1-9]{1}[0-9]{9}$/" />
+						</div>
+						<p ng-show="usrForm.phone.$invalid && !usrForm.phone.$pristine"
+							class="help-block">Enter valid phone number.</p>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-9">
+					<div class="form-group"
+						ng-class="{ 'has-error' : usrForm.email.$invalid && !usrForm.email.$pristine }">
+						<label>email</label> <input class="form-control input-lg"
+							autocomplete="off" type="email" name="email"
+							ng-model="user.email" placeholder="Enter email here" />
+						<p ng-show="usrForm.email.$invalid && !usrForm.email.$pristine"
+							class="help-block">Enter a valid email.</p>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-2" ng-show="loggedInUser.admin">
+					<div class="form-group"
+						ng-class="{ 'has-error' : usrForm.admin.$invalid && !usrForm.admin.$pristine }">
+						<label>Is Admin</label> <input type="checkbox" name="admin"
+							ng-model="user.admin" style="margin-left: 0px;" />
+					</div>
+				</div>
+				<div class="col-md-2" ng-show="loggedInUser.admin">
+					<div class="form-group"
+						ng-class="{ 'has-error' : usrForm.active.$invalid && !usrForm.active.$pristine }">
+						<label>Is Active</label> <input type="checkbox" name="active"
+							ng-model="user.active" style="margin-left: 5px;" />
+					</div>
+				</div>
+			</div>
+			</td>
+		<td width="50%" valign="top"><table width="100%">
+				
+				<tr>
+					<td><div class="col-md-9">
+							<div class="form-group"
+								ng-class="{ 'has-error' : usrForm.question1.$invalid && !usrForm.question1.$pristine }">
+								<label>Security question 1 <span style="color: red">*</span></label>
+								<select name="question1" required class="form-control input-lg"
+									ng-model="secuirtyQuestions1.question">
+									<option ng-repeat="option in options" label="{{option.label}}" value="{{option.label}}"></option>
+									</select>
+							</div>
+
+							<div class="form-group"
+								ng-class="{ 'has-error' : usrForm.answer1.$invalid && !usrForm.answer1.$pristine }">
+								<input class="form-control input-lg" required type="text"
+									name="answer1" ng-model="secuirtyQuestions1.answer" autocomplete="off" required />
+								<p
+									ng-show="usrForm.answer1.$invalid && !usrForm.answer1.$pristine"
+									class="help-block">Value required.</p>
+							</div>
+						</div></td>
+				</tr>
+				<tr>
+					<td><div class="col-md-9">
+							<div class="form-group"
+								ng-class="{ 'has-error' : usrForm.question1.$invalid && !usrForm.question1.$pristine }">
+								<label>Security question 2 <span style="color: red">*</span></label>
+								<select name="question2" required class="form-control input-lg"
+									ng-model="secuirtyQuestions2.question" >
+								<option ng-repeat="option in options" label="{{option.label}}" value="{{option.label}}"></option>
+									</select>
+							</div>
+
+							<div class="form-group"
+								ng-class="{ 'has-error' : usrForm.answer2.$invalid && !usrForm.answer2.$pristine }">
+								<input class="form-control input-lg" required type="text"
+									name="answer2" ng-model="secuirtyQuestions2.answer" autocomplete="off" required />
+								<p
+									ng-show="usrForm.answer2.$invalid && !usrForm.answer2.$pristine"
+									class="help-block">Value required.</p>
+							</div>
+						</div></td>
+				</tr>
+				<tr>
+					<td><div class="col-md-9">
+							<div class="form-group"
+								ng-class="{ 'has-error' : usrForm.question3.$invalid && !usrForm.question3.$pristine }">
+								<label>Security question 3 <span style="color: red">*</span></label>
+								<select name="question3" required class="form-control input-lg"
+									ng-model="secuirtyQuestions3.question">
+									<option ng-repeat="option in options" label="{{option.label}}" value="{{option.label}}"></option>
+									</select>
+							</div>
+
+							<div class="form-group"
+								ng-class="{ 'has-error' : usrForm.answer3.$invalid && !usrForm.answer3.$pristine }">
+								<input class="form-control input-lg" required type="text"
+									name="answer3" ng-model="secuirtyQuestions3.answer" autocomplete="off" required />
+								<p
+									ng-show="usrForm.answer3.$invalid && !usrForm.answer3.$pristine"
+									class="help-block">Value required.</p>
+							</div>
+						</div>
+						
+						</td>
+				</tr>
+			</table></td>
+
+	</tr>
+
+</table>
+

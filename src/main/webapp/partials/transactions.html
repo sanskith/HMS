@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<div ng-include="'partials/header.html'"></div>
+<table width="100%">
+	<tr>
+		<td width="50%" style="text-align: left;" valign="top">
+			<div class="page-header">
+				<h3>Transactions</h3>
+			</div>
+		</td>
+		<td width="50%" style="text-align: right; padding-bottom: 20px;"
+			valign="bottom">
+			<div class="btn-group">
+				<button type="button" ng-click="medicines()" class="btn btn-primary btn-lg">Medicines</button>
+				<button type="button" ng-click="bills()" class="btn btn-primary btn-lg">Bills</button>
+				<button type="button" ng-click="users()" class="btn btn-primary btn-lg">Users</button>
+				<button type="button" ng-click="transactions()"
+					class="btn btn-primary btn-lg">Profit/Loss Graph</button>
+			</div>
+		</td>
+	</tr>
+</table>
+<form class="form col-md-12 center-block" name="trsForm" novalidate>
+	<table width="100%">
+		<tr>
+			<td width="15%"><Strong>Select Date</Strong></td>
+			<td><div class="row">
+					<div class="col-md-3">
+						<p class="input-group">
+							<input type="text" class="form-control input-lg" ng-change="getData()"
+								uib-datepicker-popup="dd/MM/yyyy" ng-model="date"
+								is-open="popup1.opened" datepicker-options="dateOptions"
+								close-text="Close" /> <span class="input-group-btn">
+							<button type="button" class="btn btn-default btn-lg" ng-click="open1()">
+								<i class="glyphicon glyphicon-calendar"></i>
+							</button>
+						</span>
+						</p>
+					</div></td>
+		</tr>
+	</table>
+	<br>
+	<br>
+	<table width="20%">
+		<tr>
+			<td><Strong>Amount of the Day:   </Strong></td>
+			<td><STRONG>&#8377 {{amountOfTheDay | ceil}}</STRONG></td>
+		</tr>
+		<tr>
+			<td height="5px"></td>
+			<td></td>
+		</tr>
+		<tr>
+			<td height="5px"></td>
+			<td></td>
+		</tr>
+	
+		<tr>
+
+			<td><Strong>Amount of the Month: </Strong></td>
+			<td><STRONG>&#8377 {{amountOfTheMonth | ceil}}</STRONG></td>
+		</tr>
+	</table>
+</form>
