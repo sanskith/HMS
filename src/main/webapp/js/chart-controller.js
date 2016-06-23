@@ -86,5 +86,9 @@ function ChartCtrl($scope, $http, $localStorage, $location, User, $scope,
 	$scope.bills = function() {
 		$location.path("/bills");
 	};
+	
+	$scope.transactions = function(){
+		$location.path("/transactions");
+	};
 	generateOptions();
 }

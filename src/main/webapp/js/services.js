@@ -123,13 +123,14 @@ angular.module('billService', [ 'ngResource' ]).factory('Bill',
 			});
 		});
 
-angular.module('billMedicineService', [ 'ngResource' ]).factory('BillMedicine',
+
+
+angular.module('userService', [ 'ngResource' ]).factory('User',
 		function($resource) {
-			return $resource('rest/bills/billMedicine/:billId', null, {
+			return $resource('rest/users/:userId', null, {
 
 				'get' : {
-					method : 'GET',
-					isArray : true
+					method : 'GET'
 				},
 				'save' : {
 					method : 'POST'
@@ -150,9 +151,9 @@ angular.module('billMedicineService', [ 'ngResource' ]).factory('BillMedicine',
 			});
 		});
 
-angular.module('userService', [ 'ngResource' ]).factory('User',
+angular.module('transactionsService', [ 'ngResource' ]).factory('Transactions',
 		function($resource) {
-			return $resource('rest/users/:userId', null, {
+			return $resource('rest/transactions/:date', null, {
 
 				'get' : {
 					method : 'GET'

@@ -37,6 +37,10 @@ function UsersCtrl($scope, $http, $localStorage, $location, User,/*checkCreds, g
 		$location.path("/chart");
 	};
 	
+	$scope.transactions = function(){
+		$location.path("/transactions");
+	};
+	
 	$scope.clearMessages = function() {
 		$scope.successMessages = '';
 		$scope.errorMessages = '';

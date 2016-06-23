@@ -3,8 +3,8 @@
 var nhms = angular
 		.module(
 				'nhms',
-				[ 'ngRoute', 'loginService', 'ngStorage', 'medicineService',
-						'datatables', 'billService', 'userService','billMedicineService',
+				[ 'ngRoute', 'loginService', 'ngStorage', 'medicineService', 'transactionsService',
+						'datatables', 'billService', 'userService',/*'billMedicineService'*/,
 						'autofocus', /*'setCredService', 'checkCredService',*/
 						'deleteCredService'/*, 'getTokenService'*/, 'ceilFilters',
 						'wordsFilters', 'flash', 'ngAnimate','chart.js','ui.bootstrap'])
@@ -77,6 +77,9 @@ var nhms = angular
 							}).when('/reset', {
 								templateUrl : 'partials/reset-password.html',
 								controller : resetPasswordCntrl
+							}).when('/transactions', {
+								templateUrl : 'partials/transactions.html',
+								controller : transactionCntrl
 							}).otherwise({
 								redirectTo : '/home'
 							});
