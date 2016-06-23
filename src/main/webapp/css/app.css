@@ -9,6 +9,7 @@ padding: 0px;
 body{
 	/*background: #E5E1D1 url("../img/back.jpg") center center fixed repeat;
 	background-size: 100%;*/
+	font-size: large;
 }
 
 .container{
@@ -39,8 +40,8 @@ h1{
 	border-radius: 20px;*/
 	border: 2px solid #C44741;
 	outline: none;
-	width: 49%;
-	height: 30px;
+	width: 50%;
+	height: 40px;
 }
 
 .item{
@@ -74,3 +75,7 @@ a {
 	cursor: pointer;
 	
 }
+
+.dropdown-menu table {
+    width: 322px;
+  }
