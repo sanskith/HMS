@@ -11,7 +11,7 @@ function InventoryCtrl($scope, $http, $localStorage, $location, Medicine,
 	$scope.loggedInUser = $localStorage.loggedInUser;
 
 	$scope.dtOptions = DTOptionsBuilder.newOptions().withPaginationType(
-			'full_numbers');
+			'full_numbers').withOption('aaSorting', [[0, 'asc']]);
 
 	$scope.dtColumnDefs = [ DTColumnDefBuilder.newColumnDef(0),
 			DTColumnDefBuilder.newColumnDef(1),
@@ -19,7 +19,7 @@ function InventoryCtrl($scope, $http, $localStorage, $location, Medicine,
 			DTColumnDefBuilder.newColumnDef(3),
 			DTColumnDefBuilder.newColumnDef(4),
 			DTColumnDefBuilder.newColumnDef(5),
-			DTColumnDefBuilder.newColumnDef(6).notSortable() ];
+			DTColumnDefBuilder.newColumnDef(6)];
 
 	$scope.logout = function() {
 		deleteCreds();
@@ -133,7 +133,6 @@ function InventoryCtrl($scope, $http, $localStorage, $location, Medicine,
 
 	// Set the default orderBy to the name property
 	$scope.orderBy = 'name';
-
 }
 
 function AddMediceCtrl($scope, $http, $localStorage, $location, Medicine,
