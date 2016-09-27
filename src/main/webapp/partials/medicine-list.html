@@ -40,7 +40,7 @@
 			</thead>
 			<tbody>
 
-				<tr ng-repeat="medicine in medicines | orderBy:orderBy" height="50px">
+				<tr ng-repeat="medicine in medicines" height="50px">
 					<td width="20%">{{medicine.name}}</td>
 					<td width="20%">{{medicine.company}}</td>
 					<td width="10%">{{medicine.mnfDate | date : 'dd/MM/yyyy'}}</td>
