@@ -8,7 +8,7 @@ function BillInventoryCntrl($scope, $http, $localStorage, $location, Bill, /*che
 
 	$scope.loggedInUser = $localStorage.loggedInUser;
 	$scope.dtOptions = DTOptionsBuilder.newOptions().withPaginationType(
-			'full_numbers');
+			'full_numbers').withOption('aaSorting', [[0, 'desc']]);;
 
 	$scope.dtColumnDefs = [ DTColumnDefBuilder.newColumnDef(0),
 			DTColumnDefBuilder.newColumnDef(1),
@@ -77,7 +77,7 @@ function BillInventoryCntrl($scope, $http, $localStorage, $location, Bill, /*che
 	$scope.refresh();
 
 	// Set the default orderBy to the name property
-	$scope.orderBy = 'phone';
+	//$scope.orderBy = 'id';
 
 }
 
