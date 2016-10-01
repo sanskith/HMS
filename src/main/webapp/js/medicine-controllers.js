@@ -3,7 +3,7 @@ function InventoryCtrl($scope, $http, $localStorage, $location, Medicine,
 		Flash, /*checkCreds, getToken*/ deleteCreds, DTOptionsBuilder,
 		DTColumnDefBuilder) {
 
-	if ( /* !checkCreds() */$localStorage.loggedInUser === undefined
+	if ( /* !checkCreds()*/$localStorage.loggedInUser === undefined
 			|| $localStorage.loggedInUser === "") {
 		$location.path("/home");
 	}
