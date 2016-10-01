@@ -1,7 +1,7 @@
 function BillInventoryCntrl($scope, $http, $localStorage, $location, Bill, /*checkCreds, getToken,*/ deleteCreds,Flash,
 		DTOptionsBuilder, DTColumnDefBuilder) {
 	
-	if ( /*!checkCreds()*/ $localStorage.loggedInUser === undefined
+	if ( /*!checkCreds()*/  $localStorage.loggedInUser === undefined
 			|| $localStorage.loggedInUser === "") {
 		$location.path("/home");
 	}
