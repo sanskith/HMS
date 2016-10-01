@@ -30,10 +30,14 @@ public class BillRepository {
 	}
 
 	public List<Bill> findAllOrderedByName() {
+		Calendar calendar = Calendar.getInstance();
+		calendar.add(Calendar.MONTH, -3);
+		System.out.println("Bill Condition: "+calendar.getTime());
 		CriteriaBuilder cb = em.getCriteriaBuilder();
 		CriteriaQuery<Bill> criteria = cb.createQuery(Bill.class);
 		Root<Bill> bill = criteria.from(Bill.class);
-		criteria.select(bill).orderBy(cb.desc(bill.get("date")));
+		criteria.select(bill).
+		where(cb.greaterThan(bill.get("date"), calendar.getTime())).orderBy(cb.desc(bill.get("id")));
 		List<Bill> bills = em.createQuery(criteria).getResultList();
 		return bills;
 	}
