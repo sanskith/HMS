@@ -1,6 +1,5 @@
 package com.san.nhms.rest;
 
-import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -28,7 +27,6 @@ import javax.ws.rs.core.Response;
 
 import com.san.nhms.data.BillRepository;
 import com.san.nhms.model.Bill;
-import com.san.nhms.model.BillMedicine;
 import com.san.nhms.service.BillManager;
 
 @RequestScoped
@@ -50,7 +48,7 @@ public class BillResource {
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<Bill> listAllBills() {
 		return repository.findAllOrderedByName();
-	}	
+	}
 
 	@GET
 	@Path("/{id:[0-9][0-9]*}")
