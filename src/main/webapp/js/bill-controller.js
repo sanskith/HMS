@@ -36,17 +36,18 @@ function BillInventoryCntrl($scope, $http, $localStorage, $location, Bill, /*che
 
 	$scope.currDate = new Date();
 
-	$scope.modifyBill = function(index) {
+	$scope.modifyBill = function(bill) {
 		$localStorage.$default({
-			'bill' : $scope.bills[index]
+			'bill' : bill
 		});
 		$location.path("/updateBill");
 	};
 
-	$scope.removeBill = function(index) {
+	$scope.removeBill = function(bill) {
 		/*$http.defaults.headers.common['Authorization'] = 'Basic ' + getToken();*/
+		var index = $scope.bills.indexOf(bill);
 		Bill.remove({
-			billId : $scope.bills[index].id
+			billId : index
 		}, function(data) {
 			$scope.bills.splice(index, 1);
 			$scope.successMessages = [ 'Bill deleted successfully' ];

@@ -73,24 +73,24 @@ function InventoryCtrl($scope, $http, $localStorage, $location, Medicine,
 			return "label label-danger";
 	};
 
-	$scope.modifyMedicine = function(index) {
-
+	$scope.modifyMedicine = function(med) {
 		$localStorage.$default({
-			'medicine' : $scope.medicines[index]
+			'medicine' : med
 		});
 		$location.path("/updateMedicine");
 	};
 
-	$scope.removeMedicine = function(index) {
+	$scope.removeMedicine = function(med) {
 
 		/*
 		 * $http.defaults.headers.common['Authorization'] = 'Basic ' +
 		 * getToken();
 		 */
+		var index = $scope.medicines.indexOf(med);
 		Medicine
 				.remove(
 						{
-							medicineId : $scope.medicines[index].id
+							medicineId : index
 						},
 						function(data) {
 							$scope.medicines.splice(index, 1);

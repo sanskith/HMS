@@ -40,11 +40,11 @@
 					<td width="20%">{{user.email}}</td>
 					<td width="10%">{{user.phone}}</td>
 					<td width="10%">
-						<button type="button" ng-click="modifyUser($index)"
+						<button type="button" ng-click="modifyUser(user)"
 							class="btn btn-warning" title="Update">
 							<span class="glyphicon glyphicon-edit"></span>
 						</button>
-						<button type="button" ng-click="removeMedicine($index)"
+						<button type="button" ng-click="removeMedicine(user)"
 							class="btn btn-danger" title="Delete"
 							ng-show="loggedInUser.admin">
 							<span class="glyphicon glyphicon-folder-close"></span>

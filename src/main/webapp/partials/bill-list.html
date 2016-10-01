@@ -42,11 +42,11 @@
 					<td width="10%">{{bill.date | date :'dd/MM/yyyy'}}</td>
 					<td width="10%">{{bill.users.name}}</span></td>
 					<td width="10%">
-						<button type="button" ng-click="modifyBill($index)"
+						<button type="button" ng-click="modifyBill(bill)"
 							class="btn btn-warning" title="Update">
 							<span class="glyphicon glyphicon-edit"></span>
 						</button>
-						<button type="button" ng-click="removeBill($index)"
+						<button type="button" ng-click="removeBill(bill)"
 							class="btn btn-danger" title="Delete"
 							ng-show="loggedInUser.admin">
 							<span class="glyphicon glyphicon-folder-close"></span>

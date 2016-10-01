@@ -54,19 +54,19 @@ function UsersCtrl($scope, $http, $localStorage, $location, User,/*checkCreds, g
 	};
 
 
-	$scope.modifyUser = function(index) {
-
+	$scope.modifyUser = function(user) {
 		$localStorage.$default({
-			'user' : $scope.users[index]
+			'user' : user
 		});
 		$location.path("/updateUser");
 	};
 
 	
-	$scope.removeMedicine = function(index) {
+	$scope.removeMedicine = function(user) {
 		/*$http.defaults.headers.common['Authorization'] = 'Basic ' + getToken();*/
+		var index = $scope.users.indexOf(user);
 		User.remove({
-			userId : $scope.users[index].id
+			userId : index
 		}, function(data) {
 			$scope.users.splice(index, 1);
 			$scope.successMessages = [ 'User deleted successfully' ];
